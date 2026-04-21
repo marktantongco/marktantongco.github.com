@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gumroad Deployment Guide</title>
+<style>
+  @page {
+    size: 8.5in 11in;
+    margin: 0;
+  }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    color: #1a1a2e;
+    line-height: 1.6;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    width: 8.5in;
+    min-height: 11in;
+    padding: 0.75in 1in;
+    box-sizing: border-box;
+    page-break-after: always;
+  }
+
+  .page:last-child {
+    page-break-after: avoid;
+  }
+
+  .cover-page {
+    background: linear-gradient(135deg, #0d1b2a 0%, #1b2838 40%, #1a1a2e 100%);
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 1.5in 1.2in;
+  }
+
+  .cover-page h1 {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1.15;
+    margin: 0 0 16px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .cover-page h1 span {
+    color: #c9a84c;
+  }
+
+  .cover-page .subtitle {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: #b0b8c8;
+    margin-bottom: 30px;
+    line-height: 1.5;
+  }
+
+  .cover-page .tag {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    color: #c9a84c;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    border: 1px solid #c9a84c;
+    padding: 6px 16px;
+    display: inline-block;
+  }
+
+  .cover-divider {
+    width: 60px;
+    height: 2px;
+    background: #c9a84c;
+    margin: 20px auto;
+  }
+
+  h2 {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: #0d1b2a;
+    margin-top: 0;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  h2 .accent {
+    color: #c9a84c;
+  }
+
+  h3 {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1b2838;
+    margin-top: 20px;
+    margin-bottom: 6px;
+  }
+
+  h4 {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #c9a84c;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 18px;
+    margin-bottom: 6px;
+  }
+
+  p {
+    font-size: 11px;
+    line-height: 1.7;
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #2d3748;
+  }
+
+  .step-box {
+    background: #f8f9fa;
+    border-left: 3px solid #0d1b2a;
+    padding: 12px 16px;
+    margin: 10px 0;
+    page-break-inside: avoid;
+  }
+
+  .step-box .step-num {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    color: #c9a84c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .step-box .step-title {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #0d1b2a;
+    margin-bottom: 4px;
+  }
+
+  .step-box p, .step-box li {
+    font-size: 10.5px;
+    line-height: 1.6;
+    margin-bottom: 4px;
+  }
+
+  .step-box ul, .step-box ol {
+    padding-left: 16px;
+    margin: 4px 0;
+  }
+
+  .pro-tip {
+    background: #fefce8;
+    border-left: 3px solid #c9a84c;
+    padding: 10px 14px;
+    margin: 10px 0;
+    font-size: 10.5px;
+  }
+
+  .pro-tip strong {
+    color: #92400e;
+  }
+
+  .affiliate-box {
+    background: #f0f4ff;
+    border-left: 3px solid #3b82f6;
+    padding: 10px 14px;
+    margin: 10px 0;
+    font-size: 10.5px;
+  }
+
+  .affiliate-box strong {
+    color: #1d4ed8;
+  }
+
+  .copy-box {
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    padding: 10px 14px;
+    margin: 8px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 9.5px;
+    line-height: 1.5;
+    color: #1e293b;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .checklist {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .checklist li {
+    padding-left: 20px;
+    position: relative;
+    font-size: 11px;
+    margin-bottom: 4px;
+  }
+
+  .checklist li::before {
+    content: "\2610";
+    position: absolute;
+    left: 0;
+    color: #c9a84c;
+    font-size: 12px;
+  }
+
+  .section-divider {
+    width: 40px;
+    height: 2px;
+    background: #c9a84c;
+    margin: 16px 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 10px;
+  }
+
+  table th {
+    background: #0d1b2a;
+    color: #ffffff;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 8px 10px;
+    text-align: left;
+  }
+
+  table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #e5e7eb;
+    color: #374151;
+    line-height: 1.4;
+  }
+
+  table tr:nth-child(even) td {
+    background: #f9fafb;
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="page cover-page">
+  <div class="tag">Step-by-Step Guide</div>
+  <div class="cover-divider"></div>
+  <h1>Gumroad<br><span>Deployment</span><br>Guide</h1>
+  <div class="cover-divider"></div>
+  <div class="subtitle">How to Upload, Price, and Launch<br>"The 100% Accountability Sales Playbook"<br>on Gumroad — From Zero to Live</div>
+</div>
+
+<!-- STEP 1 -->
+<div class="page">
+  <h4>Phase 1</h4>
+  <h2>Prepare Your <span class="accent">Files</span></h2>
+  <div class="section-divider"></div>
+
+  <p>Before you touch Gumroad, make sure every file is polished and ready. Here's exactly what you need.</p>
+
+  <div class="step-box">
+    <div class="step-num">Step 1</div>
+    <div class="step-title">Verify Your File Package</div>
+    <p>You should have these files ready in one folder:</p>
+    <table>
+      <thead><tr><th>File</th><th>Format</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>100-Accountability-Playbook.pdf</td><td>PDF</td><td>Main product (18 pages)</td></tr>
+        <tr><td>Accountability-Tracker-Template.xlsx</td><td>XLSX</td><td>Bonus 1 - Weekly tracker</td></tr>
+        <tr><td>Client-FollowUp-System.md</td><td>Markdown</td><td>Bonus 2 - Follow-up system</td></tr>
+        <tr><td>Team-Huddle-Agenda-Template.md</td><td>Markdown</td><td>Bonus 3 - Meeting agenda</td></tr>
+        <tr><td>BONUS-Quick-Start-Checklist.pdf</td><td>PDF</td><td>Bonus 4 - 7-day checklist</td></tr>
+        <tr><td>cover-image.png</td><td>PNG (1344x768)</td><td>Product cover / social share</td></tr>
+        <tr><td>README-Instructions.txt</td><td>TXT</td><td>Buyer onboarding guide</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="step-box">
+    <div class="step-num">Step 2</div>
+    <div class="step-title">Create a Preview PDF</div>
+    <p>Gumroad lets buyers preview before purchasing. Create a 3-page sample showing your best content:</p>
+    <ul>
+      <li><strong>Page 1:</strong> Cover page (shows professional branding)</li>
+      <li><strong>Page 2:</strong> Pillar 1 content (shows substantive value)</li>
+      <li><strong>Page 3:</strong> Ownership Script section (shows practical tools)</li>
+    </ul>
+    <p>Name this file <code>Preview-Sample.pdf</code>. You'll upload it separately in Step 7.</p>
+  </div>
+
+  <div class="pro-tip">
+    <strong>Pro Tip:</strong> The preview PDF is your silent salesperson. Include just enough to demonstrate value, but leave them wanting the full framework, scripts, and bonuses. The Ownership Script page is perfect because it's immediately actionable but incomplete without the context of the 3 Pillars.
+  </div>
+
+  <div class="step-box">
+    <div class="step-num">Step 3</div>
+    <div class="step-title">Prepare the Cover Image</div>
+    <p>Your cover image (1344x768px) will appear as:</p>
+    <ul>
+      <li>The Gumroad product thumbnail</li>
+      <li>The OG image when shared on social media</li>
+      <li>The visual in search results and collections</li>
+    </ul>
+    <p>Make sure it clearly shows: "OWN OUTCOMES, NOT EXCUSES" + your name + "Playbook for Filipino Advisors". The subtle faith element (Phil 4:13 reference) signals your niche without alienating.</p>
+  </div>
+</div>
+
+<!-- STEP 2 -->
+<div class="page">
+  <h4>Phase 2</h4>
+  <h2>Create Your <span class="accent">Gumroad Account</span></h2>
+  <div class="section-divider"></div>
+
+  <div class="step-box">
+    <div class="step-num">Step 4</div>
+    <div class="step-title">Sign Up for Gumroad</div>
+    <ol>
+      <li>Go to <strong>gumroad.com</strong> and click "Start Selling"</li>
+      <li>Sign up with your email (use mark.tantongco@gmail.com for consistency)</li>
+      <li>Complete your profile: Name, Bio, Profile Photo (professional headshot)</li>
+      <li>Set up payment: Connect your bank account or PayPal (Gumroad takes 10% + 50 cents per transaction)</li>
+      <li>Enable two-factor authentication for security</li>
+    </ol>
+  </div>
+
+  <div class="step-box">
+    <div class="step-num">Step 5</div>
+    <div class="step-title">Configure Your Gumroad Profile</div>
+    <p>Go to Settings and complete these fields:</p>
+    <ul>
+      <li><strong>Display Name:</strong> Mark Anthony Ng Tantongco</li>
+      <li><strong>Bio:</strong> "Agency Sales Director at Cocolife | MDRT | Helping Filipino advisors own outcomes, not excuses. Faith + Framework = Freedom."</li>
+      <li><strong>Profile URL:</strong> gumroad.com/marktantongco (or closest available)</li>
+      <li><strong>Profile Photo:</strong> Professional headshot (same one you use on LinkedIn)</li>
+    </ul>
+  </div>
+
+  <div class="pro-tip">
+    <strong>Pro Tip:</strong> Your Gumroad profile IS your landing page. Buyers check the seller before buying. A complete, professional profile with a headshot and clear bio dramatically increases conversion rates. Mention MDRT and Cocolife — they build instant credibility in the Filipino advisor community.
+  </div>
+</div>
+
+<!-- STEP 3 -->
+<div class="page">
+  <h4>Phase 3</h4>
+  <h2>Create the <span class="accent">Product Listing</span></h2>
+  <div class="section-divider"></div>
+
+  <div class="step-box">
+    <div class="step-num">Step 6</div>
+    <div class="step-title">Create a New Product</div>
+    <ol>
+      <li>From your Gumroad Dashboard, click <strong>"New Product"</strong></li>
+      <li>Select <strong>"Digital Product"</strong></li>
+      <li>Product Name: <strong>The 100% Accountability Sales Playbook: Own Outcomes, Not Excuses</strong></li>
+      <li>Short Description: <strong>The exact framework Filipino financial advisors use to close more clients, lead stronger teams, and sell without pressure — delivered as a 18-page playbook + 4 ready-to-use templates.</strong></li>
+    </ol>
+  </div>
+
+  <div class="step-box">
+    <div class="step-num">Step 7</div>
+    <div class="step-title">Upload All Files</div>
+    <p>In the product editor, upload these files one by one:</p>
+    <ul>
+      <li>100-Accountability-Playbook.pdf (main product)</li>
+      <li>Accountability-Tracker-Template.xlsx</li>
+      <li>Client-FollowUp-System.md</li>
+      <li>Team-Huddle-Agenda-Template.md</li>
+      <li>BONUS-Quick-Start-Checklist.pdf</li>
+      <li>README-Instructions.txt</li>
+    </ul>
+    <p>Gumroad supports multi-file digital products — all files are bundled into one purchase. Buyers get a download page with links to every file.</p>
+  </div>
+
+  <div class="step-box">
+    <div class="step-num">Step 8</div>
+    <div class="step-title">Set the Cover Image</div>
+    <p>Upload <code>cover-image.png</code> as the product thumbnail. This image appears in Gumroad search, your profile page, and social shares. Click the image area in the product editor and select your file.</p>
+  </div>
+
+  <div class="step-box">
+    <div class="step-num">Step 9</div>
+    <div class="step-title">Write the Full Description</div>
+    <p>Copy and paste the following into the Description field (Gumroad supports Markdown):</p>
+  </div>
+
+  <div class="copy-box">## What You Get
+
+- **18-Page Action Playbook** (PDF) — The 3 Pillars, Ownership Scripts, Weekly Reset Routine, The Affiliate Advantage
+- **Accountability Tracker** (Excel/Google Sheets) — Track progress, spot patterns, own your growth
+- **Client Follow-Up System** (Notion/Markdown) — Never lose a warm lead again
+- **Team Huddle Agenda** (Copy-Paste Script) — Run focused, blame-free 15-min meetings
+- **7-Day Quick-Start Checklist** (PDF) — Launch your accountability practice in one week
+
+## Who This Is For
+
+- Filipino insurance/financial advisors tired of "trying" without results
+- Team leaders who want their people to own outcomes, not make excuses
+- **Faith-driven professionals** who want to sell with integrity, not pressure
+- Anyone ready to replace blame with breakthrough
+
+## Why It Works
+
+This isn't theory. It's the exact framework I use to coach MDRT qualifiers and build high-performing agencies at Cocolife. Every script, template, and reflection prompt has been tested in real Philippine market conditions.
+
+**Built on the conviction that faith is your competitive advantage.** Philippians 4:13 isn't a slogan — it's a system. When you combine unshakable faith with a proven framework, fear-based selling disappears.
+
+## Instant Access
+
+After payment, you'll get immediate download links for all files. No waiting. No upsells. Just tools you can use today.
+
+## Updates Included
+
+Buy once, get all future versions free. I update this playbook quarterly based on buyer feedback.
+
+## Affiliate Program
+
+Earn 30% commission when you share this playbook with your network. Email mark.tantongco@gmail.com with subject "Affiliate Request" to get your unique link.
+
+## Questions?
+
+Email mark.tantongco@gmail.com — I respond within 24 hours.</div>
+</div>
+
+<!-- STEP 4 -->
+<div class="page">
+  <h4>Phase 4</h4>
+  <h2>Set Pricing <span class="accent">& Variants</span></h2>
+  <div class="section-divider"></div>
+
+  <div class="step-box">
+    <div class="step-num">Step 10</div>
+    <div class="step-title">Set the Base Price</div>
+    <ol>
+      <li>In the product editor, go to <strong>Settings > Pricing</strong></li>
+      <li>Set Price: <strong>$27 USD</strong></li>
+      <li>Enable <strong>"Pay What You Want"</strong> with minimum $27 (allows generous buyers to pay more — common in faith-driven communities)</li>
+    </ol>
+  </div>
+
+  <div class="step-box">
+    <div class="step-num">Step 11</div>
+    <div class="step-title">Create the Team License Variant</div>
+    <p>Use Gumroad's Variant feature to offer a team license upsell:</p>
+    <ol>
+      <li>Go to <strong>Settings > Variants</strong></li>
+      <li>Create Variant Group: <strong>"License Type"</strong></li>
+      <li>Variant 1: <strong>"Individual License"</strong> — $27</li>
+      <li>Variant 2: <strong>"Team License (up to 5 members)"</strong> — $97</li>
+    </ol>
+    <p>The Team License includes everything in the Individual License plus permission to share with up to 5 team members. This is where most of your revenue will come from — agency directors buy for their entire team.</p>
+  </div>
+
+  <div class="pro-tip">
+    <strong>Pricing Psychology:</strong> At $27, this is an impulse buy for an MDRT-earning advisor. The $97 team license feels like a steal for 5 people ($19.40 each). Most agency directors won't blink at $97 because they spend more than that on a single team lunch. Position it as an investment, not an expense.
+  </div>
+
+  <div class="step-box">
+    <div class="step-num">Step 12</div>
+    <div class="step-title">Enable Affiliate Program</div>
+    <ol>
+      <li>Go to <strong>Settings > Affiliates</strong></li>
+      <li>Enable the affiliate program</li>
+      <li>Set commission rate: <strong>30%</strong></li>
+      <li>This means affiliates earn $8.10 per individual sale, $29.10 per team sale</li>
+    </ol>
+  </div>
+
+  <div class="affiliate-box">
+    <strong>Affiliate Strategy:</strong> Don't just enable affiliates — actively recruit 3 trusted MDRT peers. Send them the playbook for free first, then invite them to become affiliates. When they experience the value personally, their promotions become authentic, not salesy. Your network is your distribution channel with zero ad spend.
+  </div>
+</div>
+
+<!-- STEP 5 -->
+<div class="page">
+  <h4>Phase 5</h4>
+  <h2>Configure <span class="accent">Settings & SEO</span></h2>
+  <div class="section-divider"></div>
+
+  <div class="step-box">
+    <div class="step-num">Step 13</div>
+    <div class="step-title">Add Tags for Discoverability</div>
+    <p>In the product settings, add these tags (Gumroad uses them for search):</p>
+    <div class="copy-box">sales, accountability, filipino, insurance, financial advisor, leadership, productivity, notion template, mdrt, faith and work</div>
+  </div>
+
+  <div class="step-box">
+    <div class="step-num">Step 14</div>
+    <div class="step-title">Upload the Preview File</div>
+    <ol>
+      <li>In the product editor, find the <strong>"Preview"</strong> section</li>
+      <li>Upload your <code>Preview-Sample.pdf</code></li>
+      <li>This allows buyers to flip through 3 sample pages before purchasing</li>
+    </ol>
+  </div>
+
+  <div class="step-box">
+    <div class="step-num">Step 15</div>
+    <div class="step-title">Configure Purchase Settings</div>
+    <ul>
+      <li><strong>Enable purchase receipts:</strong> Yes (includes download link)</li>
+      <li><strong>Allow multiple purchases:</strong> Yes (team licenses)</li>
+      <li><strong>Require email:</strong> Yes (builds your list)</li>
+      <li><strong>Enable ratings/reviews:</strong> Yes (social proof)</li>
+      <li><strong>Custom receipt message:</strong> "Thank you for your purchase! Check your README-Instructions.txt for setup guidance. Share your #1 takeaway: marktantongco.typeform.com/to/playbook-takeaway"</li>
+    </ul>
+  </div>
+
+  <div class="step-box">
+    <div class="step-num">Step 16</div>
+    <div class="step-title">Set Up the Thank You Email</div>
+    <ol>
+      <li>Go to <strong>Settings > After Purchase</strong></li>
+      <li>Enable <strong>"Send a custom email after purchase"</strong></li>
+      <li>Subject: <strong>"Your 100% Accountability Playbook is here + your bonuses"</strong></li>
+      <li>Body: Include the Typeform link, affiliate invitation, and a personal note</li>
+    </ol>
+  </div>
+
+  <div class="copy-box">Hi [First Name],
+
+Thank you for investing in The 100% Accountability Sales Playbook!
+
+Your download includes:
+- The main playbook (18 pages)
+- 4 bonus templates (tracker, follow-up system, huddle agenda, checklist)
+- README with setup instructions
+
+YOUR NEXT STEPS:
+1. Read the Quick-Start Checklist first (BONUS-Quick-Start-Checklist.pdf)
+2. Start your 7-day accountability journey today
+3. Share your #1 takeaway: https://marktantongco.typeform.com/to/playbook-takeaway
+
+EARN WHILE YOU SHARE:
+Become an affiliate and earn 30% when you share this playbook with your network.
+Reply to this email with "Affiliate Request" to get your unique link.
+
+Go build a better us.
+
+— Mark
+mark.tantongco@gmail.com</div>
+</div>
+
+<!-- STEP 6 -->
+<div class="page">
+  <h4>Phase 6</h4>
+  <h2>Publish <span class="accent">& Launch</span></h2>
+  <div class="section-divider"></div>
+
+  <div class="step-box">
+    <div class="step-num">Step 17</div>
+    <div class="step-title">Review Everything Before Publishing</div>
+    <p>Use this final checklist:</p>
+    <ul class="checklist">
+      <li>All 7 files uploaded and accessible</li>
+      <li>Cover image displays correctly</li>
+      <li>Product title is exact: "The 100% Accountability Sales Playbook: Own Outcomes, Not Excuses"</li>
+      <li>Full description is pasted with proper Markdown formatting</li>
+      <li>Price set to $27 with "Pay What You Want" enabled</li>
+      <li>Team License variant at $97 is created</li>
+      <li>Affiliate program enabled at 30%</li>
+      <li>Tags added (all 10 keywords)</li>
+      <li>Preview PDF uploaded (3 sample pages)</li>
+      <li>Custom receipt message configured</li>
+      <li>Thank you email set up with Typeform + affiliate links</li>
+      <li>Purchase test completed (buy your own product at minimum price to verify flow)</li>
+    </ul>
+  </div>
+
+  <div class="step-box">
+    <div class="step-num">Step 18</div>
+    <div class="step-title">Publish Your Product</div>
+    <ol>
+      <li>Click <strong>"Publish"</strong> in the product editor</li>
+      <li>Your product URL will be: <strong>gumroad.com/l/[your-custom-slug]</strong></li>
+      <li>Set a custom slug like: <strong>accountability-playbook</strong></li>
+      <li>Your product is now live!</li>
+    </ol>
+  </div>
+
+  <div class="step-box">
+    <div class="step-num">Step 19</div>
+    <div class="step-title">Soft Launch — Get Your First 5 Testimonials</div>
+    <p>Before promoting publicly, share the link with 5 trusted peers for initial feedback and testimonials:</p>
+    <ol>
+      <li>Send a personal message (not a mass email): "Hey [Name], I just launched my playbook. I'd love your honest feedback — and if it helps you, a review on Gumroad would mean the world."</li>
+      <li>Give them free access if needed (Gumroad lets you generate free download links)</li>
+      <li>Collect 3-5 reviews before your public launch</li>
+      <li>Reviews are the #1 conversion driver on Gumroad — don't skip this</li>
+    </ol>
+  </div>
+
+  <div class="pro-tip">
+    <strong>Launch Sequence:</strong> Don't announce to everyone at once. Start with your 5 closest peers (Day 1), then your MDRT circle (Day 2-3), then your full network (Day 4-7). Each wave builds social proof for the next. When your full network sees the product already has 5 positive reviews, conversion rates jump significantly.
+  </div>
+</div>
+
+<!-- STEP 7: POST-LAUNCH -->
+<div class="page">
+  <h4>Phase 7</h4>
+  <h2>Post-Launch <span class="accent">Growth</span></h2>
+  <div class="section-divider"></div>
+
+  <div class="step-box">
+    <div class="step-num">Step 20</div>
+    <div class="step-title">Activate Your Affiliate Network</div>
+    <ol>
+      <li>Identify your top 3 MDRT peers who would genuinely benefit from the playbook</li>
+      <li>Send them the playbook for free with a personal note explaining the value</li>
+      <li>After they've read it, invite them to become affiliates: "If you found this useful, you can earn 30% every time someone buys through your link. Here's how..."</li>
+      <li>Provide them with a ready-to-share message they can copy-paste</li>
+      <li>Track affiliate performance weekly in your Gumroad dashboard</li>
+    </ol>
+  </div>
+
+  <div class="affiliate-box">
+    <strong>Affiliate Recruitment Script:</strong> "Hey [Name], I built this accountability framework based on what actually works in our market. It's got the exact scripts I use with clients and teams. If you find it valuable, you can share it and earn 30% per sale. No pressure either way — I just wanted you to have it. Here's the link: [affiliate-link]"
+  </div>
+
+  <div class="step-box">
+    <div class="step-num">Step 21</div>
+    <div class="step-title">Leverage the Typeform Feedback Loop</div>
+    <p>The Typeform link inside your PDF (https://marktantongco.typeform.com/to/playbook-takeaway) serves three strategic purposes:</p>
+    <ol>
+      <li><strong>Product improvement:</strong> Real buyer feedback reveals what to expand, cut, or add in future updates</li>
+      <li><strong>Testimonial mining:</strong> Great responses become reviews, social proof, and marketing copy</li>
+      <li><strong>Next product research:</strong> If 10 buyers say "I wish there was a video version," you know your next product</li>
+    </ol>
+    <p>Set a monthly reminder to review Typeform responses and incorporate them into quarterly updates.</p>
+  </div>
+
+  <div class="step-box">
+    <div class="step-num">Step 22</div>
+    <div class="step-title">Lead with Your Faith Angle</div>
+    <p>The "purpose-driven professional" niche is severely underserved on Gumroad. Most sales content is secular, aggressive, and generic. Your faith-integrated approach is a differentiator, not a limitation. Here's how to lean into it:</p>
+    <ul>
+      <li><strong>Social posts:</strong> Lead with "Faith + Framework = Freedom" — this catches attention in a crowded feed</li>
+      <li><strong>Community engagement:</strong> Share in faith-based professional groups (Catholic business networks, Christian entrepreneur communities)</li>
+      <li><strong>Content marketing:</strong> Write short posts about how Phil 4:13 practically applies to sales conversations</li>
+      <li><strong>Higher loyalty + pricing power:</strong> Faith-driven buyers are more loyal, more likely to refer, and less price-sensitive</li>
+    </ul>
+  </div>
+
+  <div class="step-box">
+    <div class="step-num">Step 23</div>
+    <div class="step-title">Plan Quarterly Updates</div>
+    <p>Gumroad lets you update files for existing buyers at no extra cost. Use this to build loyalty:</p>
+    <ul>
+      <li><strong>Q1 Update:</strong> Add 2 new Ownership Scripts based on buyer feedback</li>
+      <li><strong>Q2 Update:</strong> Add a "Team Performance Dashboard" template</li>
+      <li><strong>Q3 Update:</strong> Add video walkthrough links (record yourself explaining each section)</li>
+      <li><strong>Q4 Update:</strong> Annual edition with all improvements + new case studies</li>
+    </ul>
+    <p>Every update is a reason to email your buyer list, prompt reviews, and generate fresh social content.</p>
+  </div>
+
+  <h3>Revenue Projection</h3>
+  <table>
+    <thead><tr><th>Scenario</th><th>Monthly Sales</th><th>Monthly Revenue</th><th>Affiliate Revenue (30%)</th></tr></thead>
+    <tbody>
+      <tr><td>Conservative (no affiliates)</td><td>10 individual</td><td>$270</td><td>$0</td></tr>
+      <tr><td>Moderate (3 affiliates)</td><td>20 + 10 affiliate</td><td>$540 + $270</td><td>-$81 (paid out)</td></tr>
+      <tr><td>Aggressive (5 affiliates + teams)</td><td>30 + 20 affiliate + 5 team</td><td>$810 + $540 + $485</td><td>-$270 (paid out)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

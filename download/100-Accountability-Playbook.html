@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The 100% Accountability Sales Playbook</title>
+<style>
+  @page {
+    size: 8.5in 11in;
+    margin: 0;
+  }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    color: #1a1a2e;
+    line-height: 1.6;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    width: 8.5in;
+    min-height: 11in;
+    padding: 0.75in 1in;
+    box-sizing: border-box;
+    page-break-after: always;
+    position: relative;
+  }
+
+  .page:last-child {
+    page-break-after: avoid;
+  }
+
+  /* COVER PAGE */
+  .cover-page {
+    background: linear-gradient(135deg, #0d1b2a 0%, #1b2838 40%, #1a1a2e 100%);
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 1.5in 1.2in;
+  }
+
+  .cover-page .faith-badge {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #c9a84c;
+    margin-bottom: 30px;
+    border: 1px solid #c9a84c;
+    padding: 6px 20px;
+    display: inline-block;
+  }
+
+  .cover-page h1 {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 38px;
+    font-weight: 900;
+    line-height: 1.15;
+    margin: 0 0 16px 0;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .cover-page h1 span {
+    color: #c9a84c;
+  }
+
+  .cover-page .subtitle {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    color: #b0b8c8;
+    margin-bottom: 40px;
+    line-height: 1.5;
+  }
+
+  .cover-page .tagline {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    color: #c9a84c;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .cover-page .author {
+    font-family: 'Georgia', serif;
+    font-size: 14px;
+    color: #8892a4;
+    margin-top: 40px;
+  }
+
+  .cover-page .author strong {
+    color: #ffffff;
+  }
+
+  .cover-page .scripture {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 12px;
+  }
+
+  .cover-divider {
+    width: 60px;
+    height: 2px;
+    background: #c9a84c;
+    margin: 24px auto;
+  }
+
+  /* BODY PAGES */
+  .page h2 {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: #0d1b2a;
+    margin-top: 0;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .page h2 .accent {
+    color: #c9a84c;
+  }
+
+  .page h3 {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1b2838;
+    margin-top: 28px;
+    margin-bottom: 8px;
+  }
+
+  .page h4 {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #c9a84c;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 24px;
+    margin-bottom: 8px;
+  }
+
+  .page p {
+    font-size: 11.5px;
+    line-height: 1.7;
+    margin-top: 0;
+    margin-bottom: 12px;
+    color: #2d3748;
+  }
+
+  .page .intro-text {
+    font-size: 13px;
+    line-height: 1.8;
+    color: #1a1a2e;
+  }
+
+  .page ul, .page ol {
+    font-size: 11.5px;
+    line-height: 1.7;
+    color: #2d3748;
+    padding-left: 20px;
+    margin-bottom: 12px;
+  }
+
+  .page li {
+    margin-bottom: 4px;
+  }
+
+  .page .checklist {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .page .checklist li {
+    padding-left: 24px;
+    position: relative;
+    margin-bottom: 6px;
+  }
+
+  .page .checklist li::before {
+    content: "\2610";
+    position: absolute;
+    left: 0;
+    color: #c9a84c;
+    font-size: 14px;
+  }
+
+  .page blockquote {
+    border-left: 3px solid #c9a84c;
+    margin: 16px 0;
+    padding: 12px 20px;
+    background: #f8f6f0;
+    font-style: italic;
+    font-size: 12px;
+    line-height: 1.7;
+    color: #374151;
+  }
+
+  .page .script-box {
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    line-height: 1.7;
+    color: #1e293b;
+    white-space: pre-wrap;
+  }
+
+  .page .action-step {
+    background: #fefce8;
+    border-left: 3px solid #c9a84c;
+    padding: 12px 16px;
+    margin: 14px 0;
+    font-size: 11.5px;
+  }
+
+  .page .action-step strong {
+    color: #92400e;
+  }
+
+  .page table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 11px;
+  }
+
+  .page table th {
+    background: #0d1b2a;
+    color: #ffffff;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 10px 12px;
+    text-align: left;
+  }
+
+  .page table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #e5e7eb;
+    color: #374151;
+    line-height: 1.5;
+  }
+
+  .page table tr:nth-child(even) td {
+    background: #f9fafb;
+  }
+
+  .page .section-divider {
+    width: 40px;
+    height: 2px;
+    background: #c9a84c;
+    margin: 24px 0;
+  }
+
+  .page .page-number {
+    position: absolute;
+    bottom: 0.5in;
+    right: 1in;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 9px;
+    color: #9ca3af;
+  }
+
+  .page .bonus-badge {
+    display: inline-block;
+    background: #0d1b2a;
+    color: #c9a84c;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 4px 12px;
+    border-radius: 3px;
+    margin-right: 6px;
+  }
+
+  .page .thank-you-box {
+    background: linear-gradient(135deg, #f8f6f0, #fefce8);
+    border: 2px solid #c9a84c;
+    border-radius: 8px;
+    padding: 24px;
+    text-align: center;
+    margin: 24px 0;
+  }
+
+  .page .thank-you-box h3 {
+    color: #0d1b2a;
+    font-size: 18px;
+    margin-top: 0;
+  }
+
+  .page .thank-you-box p {
+    color: #4b5563;
+    font-size: 12px;
+  }
+
+  .page .thank-you-box .link {
+    display: inline-block;
+    background: #0d1b2a;
+    color: #c9a84c;
+    padding: 10px 24px;
+    border-radius: 4px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+
+  .page .affiliate-box {
+    background: #f0f4ff;
+    border-left: 3px solid #3b82f6;
+    padding: 14px 18px;
+    margin: 14px 0;
+  }
+
+  .page .affiliate-box h4 {
+    color: #1d4ed8;
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin-top: 0;
+    margin-bottom: 6px;
+  }
+
+  .page .faith-section {
+    background: #faf8f5;
+    border: 1px solid #e8dcc8;
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin: 16px 0;
+  }
+
+  .page .faith-section h4 {
+    color: #92400e;
+    margin-top: 0;
+  }
+
+  .page .week-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .page .week-item {
+    flex: 1;
+    background: #f8f9fa;
+    border-radius: 6px;
+    padding: 12px;
+  }
+
+  .page .week-item h4 {
+    color: #0d1b2a;
+    font-size: 10px;
+    margin-top: 0;
+    margin-bottom: 4px;
+  }
+
+  .page .week-item p {
+    font-size: 10.5px;
+    margin-bottom: 0;
+    color: #4b5563;
+  }
+
+  .toc-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 6px 0;
+    border-bottom: 1px dotted #d1d5db;
+    font-size: 12px;
+  }
+
+  .toc-item .toc-title {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 600;
+    color: #0d1b2a;
+  }
+
+  .toc-item .toc-page {
+    color: #9ca3af;
+    font-size: 11px;
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER PAGE -->
+<div class="page cover-page">
+  <div class="faith-badge">Purpose-Driven Professional</div>
+  <h1>The 100%<br>Accountability<br><span>Sales Playbook</span></h1>
+  <div class="cover-divider"></div>
+  <div class="tagline">Own Outcomes, Not Excuses</div>
+  <div class="subtitle">How Faith-Driven Filipino Advisors Own Results,<br>Lead Stronger Teams, and Sell with Integrity</div>
+  <div class="author"><strong>Mark Anthony Ng Tantongco</strong></div>
+  <div class="author" style="margin-top:4px;">Agency Sales Director | MDRT</div>
+  <div class="scripture">"I can do all things through Christ who strengthens me" — Philippians 4:13</div>
+</div>
+
+<!-- WELCOME / INTRO PAGE -->
+<div class="page">
+  <h4>Welcome</h4>
+  <h2>Why This <span class="accent">Works</span></h2>
+  <div class="section-divider"></div>
+  <p class="intro-text">You don't need more tactics. You need a <strong>mindset shift</strong>. This playbook teaches the exact framework I use to coach advisors who go from "trying" to "closing"—without burnout, without pressure, without blame.</p>
+
+  <div class="faith-section">
+    <h4>A Word on Faith</h4>
+    <p>This playbook is built on a conviction: <strong>your faith is your competitive advantage</strong>. Philippians 4:13 isn't a slogan—it's a system. When you combine unshakable faith with a proven framework, fear-based selling disappears. You stop performing and start serving. That's the purpose-driven professional's edge.</p>
+    <p>I don't hide this. I lead with it. Because the advisors who thrive long-term aren't just skilled—they're anchored. If that resonates, you're in the right place.</p>
+  </div>
+
+  <h3>What You'll Get</h3>
+  <ul>
+    <li><strong>The 3 Pillars of 100% Accountability</strong> — The foundation for owning every outcome</li>
+    <li><strong>The "Ownership Script"</strong> — Word-for-word frameworks for tough client conversations</li>
+    <li><strong>The Weekly Reset Routine</strong> — A 15-minute practice that prevents excuse cycles</li>
+    <li><strong>The Affiliate Advantage</strong> — How to turn your network into your distribution channel</li>
+    <li><strong>3 ready-to-use templates</strong> — Download links inside</li>
+  </ul>
+
+  <h3>Table of Contents</h3>
+  <div class="toc-item"><span class="toc-title">Part 1: The 3 Pillars of 100% Accountability</span><span class="toc-page">3</span></div>
+  <div class="toc-item"><span class="toc-title">Part 2: The Ownership Script</span><span class="toc-page">6</span></div>
+  <div class="toc-item"><span class="toc-title">Part 3: The Weekly Reset Routine</span><span class="toc-page">9</span></div>
+  <div class="toc-item"><span class="toc-title">Part 4: The Affiliate Advantage</span><span class="toc-page">11</span></div>
+  <div class="toc-item"><span class="toc-title">Your Bonuses</span><span class="toc-page">13</span></div>
+  <div class="toc-item"><span class="toc-title">Your Next Step</span><span class="toc-page">14</span></div>
+
+  <div class="page-number">2</div>
+</div>
+
+<!-- PART 1: PILLAR 1 -->
+<div class="page">
+  <h4>Part 1</h4>
+  <h2>The 3 Pillars of<br><span class="accent">100% Accountability</span></h2>
+  <div class="section-divider"></div>
+
+  <h3>Pillar 1: Fix the Problem, Not the Blame</h3>
+  <blockquote>"When a client says no, most advisors ask: 'Why did they reject me?' The accountable advisor asks: 'What did I miss in understanding their need?'"</blockquote>
+  <p>The moment you shift from blame to curiosity, you reclaim your power. Blame is comfortable—it absolves you of responsibility. But comfort doesn't close deals. Accountability does. Every rejection contains a lesson, but only if you're willing to look for it in yourself first.</p>
+  <p>This isn't about self-punishment. It's about self-leadership. When you own your role in every outcome—good or bad—you gain the clarity to adjust, improve, and ultimately succeed on your terms.</p>
+
+  <div class="action-step">
+    <strong>Action Step:</strong> Next rejection, write down:
+    <ol style="margin-bottom:0; padding-left:18px; margin-top:4px;">
+      <li>What I controlled in that conversation</li>
+      <li>One thing I'd adjust next time</li>
+      <li>One question I should've asked earlier</li>
+    </ol>
+  </div>
+
+  <h3>Pillar 2: Words Create Worlds</h3>
+  <p>Your language doesn't just describe your reality—it creates it. Every time you say "they're not ready," you surrender your agency. Every time you say "I haven't built enough trust yet," you reclaim it. The shift isn't semantic. It's strategic. Ownership language activates ownership thinking, which produces ownership results.</p>
+
+  <table>
+    <thead>
+      <tr><th>Instead of...</th><th>Say this...</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>"They're not ready"</td><td>"I haven't built enough trust yet"</td></tr>
+      <tr><td>"The market is slow"</td><td>"I haven't identified the right segment this quarter"</td></tr>
+      <tr><td>"My team isn't performing"</td><td>"I haven't clarified expectations or removed blockers"</td></tr>
+      <tr><td>"That client was impossible"</td><td>"I didn't find the right approach for that client"</td></tr>
+      <tr><td>"It's not my fault"</td><td>"What part of this is within my control?"</td></tr>
+    </tbody>
+  </table>
+
+  <div class="action-step">
+    <strong>Action Step:</strong> Audit your last 10 client notes. Circle any external-blame language. Rewrite one sentence using ownership language.
+  </div>
+
+  <div class="page-number">4</div>
+</div>
+
+<!-- PILLAR 3 -->
+<div class="page">
+  <h3>Pillar 3: Faith + Framework = Freedom</h3>
+  <blockquote>"I can do all things through Christ who strengthens me" (Phil 4:13) isn't a slogan—it's a system. Faith gives you courage. Framework gives you clarity. Together, they remove fear-based selling.</blockquote>
+
+  <div class="faith-section">
+    <h4>Why Faith Is Your Edge</h4>
+    <p>Most sales training ignores the spiritual dimension entirely. That's a mistake. When you ground your work in faith, you stop selling from desperation and start serving from abundance. You don't need to manipulate anyone into buying—because you trust that the right clients will come when you show up with integrity and purpose.</p>
+    <p>Faith doesn't replace effort—it fuels it. It's the foundation that makes the framework work. Without faith, accountability becomes a burden. With faith, it becomes freedom.</p>
+  </div>
+
+  <p>Here's how the system works in practice:</p>
+  <ul>
+    <li><strong>Faith</strong> provides the courage to have honest conversations, to ask hard questions, to serve rather than sell</li>
+    <li><strong>Framework</strong> provides the repeatable structure—the scripts, the routines, the trackers—that turn courage into consistent results</li>
+    <li><strong>Freedom</strong> is the result: freedom from fear, from blame, from the feast-or-famine cycle</li>
+  </ul>
+
+  <div class="action-step">
+    <strong>Action Step:</strong> Before your next client call, spend 60 seconds in silence. Ask: "How can I serve, not sell?" Then proceed with full confidence that your preparation and your faith are enough.
+  </div>
+
+  <h3>The 3 Pillars at a Glance</h3>
+  <div class="week-row">
+    <div class="week-item">
+      <h4>Pillar 1</h4>
+      <p><strong>Fix the Problem</strong><br>Shift from blame to curiosity. Own your role in every outcome.</p>
+    </div>
+    <div class="week-item">
+      <h4>Pillar 2</h4>
+      <p><strong>Words Create Worlds</strong><br>Replace blame language with ownership language. Speak results into existence.</p>
+    </div>
+    <div class="week-item">
+      <h4>Pillar 3</h4>
+      <p><strong>Faith + Framework</strong><br>Courage from faith. Clarity from framework. Freedom as the result.</p>
+    </div>
+  </div>
+
+  <div class="page-number">6</div>
+</div>
+
+<!-- PART 2: OWNERSHIP SCRIPT -->
+<div class="page">
+  <h4>Part 2</h4>
+  <h2>The Ownership <span class="accent">Script</span></h2>
+  <div class="section-divider"></div>
+  <p class="intro-text">Use these word-for-word. They're not manipulations—they're bridges. Each script is designed to deepen understanding, demonstrate empathy, and keep you in a position of service rather than pressure.</p>
+
+  <h3>When a Client Hesitates</h3>
+  <div class="script-box">"I appreciate you sharing that. Help me understand—
+when you say [repeat their concern], what's the
+biggest worry behind that for you?"</div>
+  <p>Listen fully. Don't interrupt. Then:</p>
+  <div class="script-box">"Thank you. Based on what you've shared, here's
+what I recommend we do next..."</div>
+
+  <h3>When a Prospect Ghosts</h3>
+  <div class="script-box">"Hi [Name], I know life gets busy. No pressure at all.
+If now's not the right time, just reply 'later' and I'll
+circle back in 90 days.
+
+If there's something I missed, I'd genuinely value
+your honesty—what held you back?"</div>
+  <p>This script works because it removes pressure (which causes ghosting in the first place) while keeping the door open. The 90-day option gives them an easy out, which paradoxically makes them more likely to re-engage. And the invitation for honest feedback signals confidence—you're not desperate, you're curious.</p>
+
+  <h3>When Your Team Misses Target</h3>
+  <div class="script-box">"Let's look at this together. What part of the process
+felt unclear? What support do you need from me to
+hit this next week?"</div>
+  <p>Notice what's absent: blame, shame, or accusation. Instead, you're modeling Pillar 1—fixing the problem, not the blame—while simultaneously coaching your team to do the same.</p>
+
+  <div class="action-step">
+    <strong>Pro Tip:</strong> Record yourself practicing these scripts. Listen back. Adjust your tone to calm, curious, and confident. The words matter, but the tone determines whether they land or fall flat.
+  </div>
+
+  <div class="page-number">8</div>
+</div>
+
+<!-- MORE SCRIPTS + DEEP DIVE -->
+<div class="page">
+  <h3>The Faith-Driven Approach to Difficult Conversations</h3>
+  <p>Every script in this playbook was built on one principle: <strong>serve, don't sell</strong>. When your faith anchors your intent, you stop worrying about "closing" and start focusing on whether you've truly understood and served the person in front of you.</p>
+
+  <div class="faith-section">
+    <h4>Before Every Conversation, Pray This</h4>
+    <p>"Lord, give me ears to hear what they're really saying. Give me words that serve, not sell. And give me the courage to tell the truth with love."</p>
+    <p>This 10-second prayer reframes your entire approach. You stop performing and start listening. You stop pushing and start guiding. And the client can feel the difference immediately.</p>
+  </div>
+
+  <h3>When You Need to Deliver Tough News</h3>
+  <div class="script-box">"I want to be honest with you because I respect you
+too much to sugarcoat this. Based on where you are
+today, [product A] isn't the best fit. Here's what I'd
+actually recommend instead..."</div>
+  <p>This script is the ultimate trust-builder. When you're willing to recommend against your own product, you prove you're a trusted advisor—not just a salesperson. And paradoxically, this honesty closes more deals in the long run because clients refer you as "the one who told me the truth."</p>
+
+  <h3>When a Client Asks for a Discount</h3>
+  <div class="script-box">"I appreciate you asking directly. The price reflects the
+value of the solution. What I can do is adjust the
+scope to match your budget—which part matters
+most to you right now?"</div>
+  <p>This maintains your value positioning while staying flexible on scope. You never discount your worth—you adjust the offering.</p>
+
+  <div class="page-number">10</div>
+</div>
+
+<!-- PART 3: WEEKLY RESET -->
+<div class="page">
+  <h4>Part 3</h4>
+  <h2>The Weekly <span class="accent">Reset Routine</span></h2>
+  <div class="section-divider"></div>
+  <p class="intro-text">15 minutes every Friday at 4:30 PM. No exceptions. This isn't optional—it's the system that makes everything else work. Without it, accountability fades. With it, you build compounding self-awareness that accelerates growth.</p>
+
+  <h3>The 4-Step Reset</h3>
+  <div class="week-row">
+    <div class="week-item" style="flex:1;">
+      <h4>Step 1: Review</h4>
+      <p>What 3 conversations went well this week? Why? Be specific—name the client, the moment, the turning point.</p>
+    </div>
+    <div class="week-item" style="flex:1;">
+      <h4>Step 2: Reflect</h4>
+      <p>Where did I default to blame? What's the ownership rewrite? This is where the real growth happens.</p>
+    </div>
+  </div>
+  <div class="week-row">
+    <div class="week-item" style="flex:1;">
+      <h4>Step 3: Recharge</h4>
+      <p>One thing I'm grateful for in my work this week. Gratitude isn't soft—it's the fuel that prevents burnout.</p>
+    </div>
+    <div class="week-item" style="flex:1;">
+      <h4>Step 4: Plan</h4>
+      <p>Top 3 priorities for next week—written before I leave. Clarity on Friday means momentum on Monday.</p>
+    </div>
+  </div>
+
+  <h3>Weekly Reflection Template</h3>
+  <table>
+    <thead>
+      <tr><th>Category</th><th>Prompt</th><th>Your Answer</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Review</td><td>What 3 conversations went well?</td><td>_________________</td></tr>
+      <tr><td>Reflect</td><td>Where did I default to blame?</td><td>_________________</td></tr>
+      <tr><td>Recharge</td><td>What am I grateful for?</td><td>_________________</td></tr>
+      <tr><td>Plan</td><td>Top 3 priorities for next week?</td><td>_________________</td></tr>
+    </tbody>
+  </table>
+
+  <div class="action-step">
+    <strong>Template:</strong> Use the "Accountability-Tracker-Template.xlsx" (Bonus 1) to track your weekly reflections digitally. Patterns emerge after 4-6 weeks that you'd never spot otherwise.
+  </div>
+
+  <h3>The Faith Dimension</h3>
+  <div class="faith-section">
+    <h4>Sunday Prep + Friday Reset</h4>
+    <p>Pair this routine with a Sunday evening prayer: "Lord, this week I commit my work to You. Use my conversations to bless others." Then on Friday, close your reset with: "Thank You for the opportunities this week. Show me where to grow." This creates a spiritual rhythm that sustains you far longer than any productivity hack.</p>
+  </div>
+
+  <div class="page-number">12</div>
+</div>
+
+<!-- PART 4: AFFILIATE ADVANTAGE (Suggestion 2) -->
+<div class="page">
+  <h4>Part 4</h4>
+  <h2>The Affiliate <span class="accent">Advantage</span></h2>
+  <div class="section-divider"></div>
+  <p class="intro-text">This playbook is also a business opportunity. When you share it with peers, you earn. Here's how to turn your network into your distribution channel—with zero ad spend.</p>
+
+  <h3>How the Gumroad Affiliate Program Works</h3>
+  <p>This playbook is sold on Gumroad, which has a built-in affiliate system. When you become an affiliate:</p>
+  <ul>
+    <li><strong>You earn 30%</strong> of every sale that comes through your unique affiliate link</li>
+    <li><strong>No inventory, no customer service</strong>—Gumroad handles payments, delivery, and support</li>
+    <li><strong>Instant payouts</strong>—commissions deposit directly to your bank account</li>
+    <li><strong>Full transparency</strong>—track clicks, conversions, and earnings in your Gumroad dashboard</li>
+  </ul>
+
+  <div class="affiliate-box">
+    <h4>Quick Math</h4>
+    <p>If the playbook sells for $27 and you earn 30% per sale, that's <strong>$8.10 per referral</strong>. Share with 10 colleagues who buy = $81. Share with 50 = $405. Your network already trusts you—that's the hardest part, already done.</p>
+  </div>
+
+  <h3>How to Recruit 3 MDRT Peers</h3>
+  <ol>
+    <li><strong>Choose 3 trusted peers</strong> who share your values and work ethic. They don't need to be your closest friends—they need to be respected voices in the advisor community.</li>
+    <li><strong>Share your genuine experience</strong> with the playbook. Don't sell—share. "I started using this framework last month and my follow-up conversion went from 20% to 35%. Here's the link if you want to check it out."</li>
+    <li><strong>Invite them to become affiliates too.</strong> When they earn, they're motivated to keep sharing. Your 3 peers become 9, then 27. That's exponential reach from a single conversation.</li>
+  </ol>
+
+  <h3>Affiliate Outreach Script</h3>
+  <div class="script-box">"Hey [Name], I just went through this accountability
+playbook by Mark Tantongco—it's the exact framework
+he uses for MDRT qualifiers. It's got scripts, templates,
+the whole thing. If you find it useful, you can also
+become an affiliate and earn 30% when you share it.
+
+Here's my link: [your-affiliate-link]"</div>
+
+  <div class="action-step">
+    <strong>Action Step:</strong> Email mark.tantongco@gmail.com with subject "Affiliate Request" to get your unique affiliate link within 24 hours.
+  </div>
+
+  <div class="page-number">14</div>
+</div>
+
+<!-- BONUSES -->
+<div class="page">
+  <h4>Exclusive Resources</h4>
+  <h2>Your <span class="accent">Bonuses</span></h2>
+  <div class="section-divider"></div>
+
+  <p>Every bonus is designed for immediate implementation. No theory—just tools you can use today.</p>
+
+  <h3><span class="bonus-badge">Bonus 1</span> Accountability Tracker (Excel / Google Sheets)</h3>
+  <p>A weekly tracking template that records your goals, actions, results, ownership reflections, and adjustments. Import into Google Sheets or open in Excel. Fill one row per week. After 4-6 weeks, patterns emerge that reveal your blind spots and your strengths.</p>
+  <p><strong>File:</strong> Accountability-Tracker-Template.xlsx</p>
+
+  <h3><span class="bonus-badge">Bonus 2</span> Client Follow-Up System (Notion / Google Docs)</h3>
+  <p>The 3-Touch Rule: never let a warm lead go cold. This template includes a complete follow-up sequence with timing, scripts, and CRM pipeline tags. Copy into Notion or Google Docs and customize for your practice.</p>
+  <p><strong>File:</strong> Client-FollowUp-System.md</p>
+
+  <h3><span class="bonus-badge">Bonus 3</span> Team Huddle Agenda (Copy-Paste Script)</h3>
+  <p>A 15-minute Monday morning huddle template that keeps your team aligned, accountable, and blame-free. Includes strict timeboxing, ground rules, and leader preparation checklist. Run it every week—consistency beats perfection.</p>
+  <p><strong>File:</strong> Team-Huddle-Agenda-Template.md</p>
+
+  <h3><span class="bonus-badge">Bonus 4</span> 7-Day Quick-Start Checklist (PDF)</h3>
+  <p>A day-by-day launch plan that takes you from reading this playbook to operating at 100% accountability in one week. Print it. Check boxes. Win.</p>
+  <p><strong>File:</strong> BONUS-Quick-Start-Checklist.pdf</p>
+
+  <div class="action-step">
+    <strong>Need a replacement file?</strong> Email mark.tantongco@gmail.com with subject "Playbook Help" for instant replacement. All links are verified at time of purchase.
+  </div>
+
+  <div class="page-number">16</div>
+</div>
+
+<!-- YOUR NEXT STEP + THANK YOU (Suggestion 1) -->
+<div class="page">
+  <h4>Final Word</h4>
+  <h2>Your Next <span class="accent">Step</span></h2>
+  <div class="section-divider"></div>
+
+  <p class="intro-text">Accountability isn't about guilt. It's about power. When you own your words, your actions, your results—you stop waiting for permission to succeed.</p>
+
+  <p>You were created to lead. Now you have the framework.</p>
+
+  <p>Go build a better us.</p>
+
+  <p style="font-style:italic; color:#6b7280;">— Mark</p>
+
+  <div class="faith-section">
+    <h4>A Final Word on Faith</h4>
+    <p>If you've made it this far, something in this playbook resonated with you. Maybe it was the framework. Maybe it was the scripts. Or maybe—just maybe—it was the permission to bring your whole self to your work, faith included. You don't have to choose between professional excellence and spiritual integrity. They feed each other. The purpose-driven professional isn't a niche—it's the future. And you're already part of it.</p>
+  </div>
+
+  <div class="thank-you-box">
+    <h3>Share Your #1 Takeaway</h3>
+    <p>I'd genuinely love to hear what resonated most with you. Your feedback shapes future updates and helps me serve more advisors like you.</p>
+    <a href="https://marktantongco.typeform.com/to/playbook-takeaway" class="link">Tell Me Your Takeaway</a>
+    <p style="font-size:10px; color:#9ca3af; margin-top:12px;">This link is exclusive to playbook buyers. Your response is confidential and helps me create better tools for the purpose-driven professional community.</p>
+  </div>
+
+  <div class="affiliate-box">
+    <h4>Become an Affiliate — Earn 30% Per Sale</h4>
+    <p>Share this playbook with your network and earn 30% commission on every sale. Email mark.tantongco@gmail.com with subject "Affiliate Request" to get started.</p>
+  </div>
+
+  <p style="font-size:10px; color:#9ca3af; text-align:center; margin-top:20px;">If this helped you, I'd be honored if you left a review on Gumroad. Your feedback helps me create more tools for advisors who choose growth.</p>
+
+  <div class="page-number">18</div>
+</div>
+
+</body>
+</html>
