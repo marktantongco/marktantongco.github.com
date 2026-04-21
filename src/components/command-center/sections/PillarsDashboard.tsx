@@ -12,7 +12,6 @@ interface ActionStep {
 }
 
 interface PillarData {
-  icon: typeof Target
   title: string
   subtitle: string
   description: string
@@ -21,9 +20,10 @@ interface PillarData {
   expanded: boolean
 }
 
+const pillarIcons = [Target, MessageSquare, Zap]
+
 const defaultPillars: PillarData[] = [
   {
-    icon: Target,
     title: 'Fix the Problem, Not the Blame',
     subtitle: 'Pillar 1',
     description:
@@ -38,7 +38,6 @@ const defaultPillars: PillarData[] = [
     expanded: false,
   },
   {
-    icon: MessageSquare,
     title: 'Words Create Worlds',
     subtitle: 'Pillar 2',
     description:
@@ -51,7 +50,6 @@ const defaultPillars: PillarData[] = [
     expanded: false,
   },
   {
-    icon: Zap,
     title: 'Faith + Framework = Freedom',
     subtitle: 'Pillar 3',
     description:
@@ -104,6 +102,7 @@ export function PillarsDashboard() {
 
       <div className="space-y-6">
         {pillars.map((pillar, index) => {
+          const Icon = pillarIcons[index] || Target
           const completedSteps = pillar.actionSteps.filter((s) => s.completed).length
           const totalSteps = pillar.actionSteps.length
           const progress = (completedSteps / totalSteps) * 100
@@ -122,7 +121,7 @@ export function PillarsDashboard() {
                 >
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 rounded-lg bg-gold/10 flex items-center justify-center shrink-0">
-                      <pillar.icon className="w-6 h-6 text-gold" />
+                      <Icon className="w-6 h-6 text-gold" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-gold text-xs font-bold tracking-widest uppercase mb-1">

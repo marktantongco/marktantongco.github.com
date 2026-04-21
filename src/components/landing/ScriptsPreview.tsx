@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { MessageSquare, ChevronDown, Copy, Check } from 'lucide-react'
+import { MessageSquare, Copy, Check } from 'lucide-react'
 import { useState } from 'react'
 import {
   Accordion,
@@ -58,10 +58,14 @@ If there's something I missed, I'd genuinely value your honesty—what held you 
 export function ScriptsPreview() {
   const [copiedId, setCopiedId] = useState<string | null>(null)
 
-  const handleCopy = (text: string, id: string) => {
-    navigator.clipboard.writeText(text)
-    setCopiedId(id)
-    setTimeout(() => setCopiedId(null), 2000)
+  const handleCopy = async (text: string, id: string) => {
+    try {
+      await navigator.clipboard.writeText(text)
+      setCopiedId(id)
+      setTimeout(() => setCopiedId(null), 2000)
+    } catch {
+      // Fallback: ignore silently
+    }
   }
 
   return (

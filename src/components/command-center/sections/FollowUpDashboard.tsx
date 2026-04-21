@@ -92,10 +92,14 @@ export function FollowUpDashboard() {
                 <div className="relative bg-[#0d1b2a] rounded-lg p-3 border border-gold/10 text-xs text-[#b0b8c8] italic">
                   {touch.script}
                   <button
-                    onClick={() => {
-                      navigator.clipboard.writeText(touch.script)
-                      setCopiedTouch(touch.touch)
-                      setTimeout(() => setCopiedTouch(null), 2000)
+                    onClick={async () => {
+                      try {
+                        await navigator.clipboard.writeText(touch.script)
+                        setCopiedTouch(touch.touch)
+                        setTimeout(() => setCopiedTouch(null), 2000)
+                      } catch {
+                        // Fallback: ignore silently
+                      }
                     }}
                     className="absolute top-2 right-2 p-1.5 rounded-md hover:bg-gold/10 transition-colors"
                     aria-label="Copy script"

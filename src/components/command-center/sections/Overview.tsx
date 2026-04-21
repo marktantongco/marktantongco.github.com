@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Shield, MessageSquare, Calendar, CheckSquare, ArrowRight, TrendingUp } from 'lucide-react'
+import { Shield, MessageSquare, Calendar, CheckSquare, ArrowRight, TrendingUp, Download } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 const stats = [
@@ -17,7 +17,11 @@ const recentActivity = [
   { text: 'Practice your first Ownership Script', time: 'Recommended', icon: MessageSquare },
 ]
 
-export function Overview() {
+interface OverviewProps {
+  onNavigate: (tab: string) => void
+}
+
+export function Overview({ onNavigate }: OverviewProps) {
   return (
     <div>
       {/* Welcome */}
@@ -70,9 +74,11 @@ export function Overview() {
               { label: 'Practice a Script', tab: 'scripts', icon: MessageSquare },
               { label: 'Complete Weekly Reset', tab: 'weekly-reset', icon: Calendar },
               { label: 'Start Quick-Start Checklist', tab: 'checklist', icon: CheckSquare },
+              { label: 'Download Resources', tab: 'resources', icon: Download },
             ].map((action, i) => (
               <button
                 key={i}
+                onClick={() => onNavigate(action.tab)}
                 className="w-full flex items-center gap-3 p-3 rounded-lg bg-[#0d1b2a] border border-gold/5 hover:border-gold/20 transition-all text-left group"
               >
                 <div className="w-8 h-8 rounded-lg bg-gold/10 flex items-center justify-center shrink-0 group-hover:bg-gold/20 transition-colors">

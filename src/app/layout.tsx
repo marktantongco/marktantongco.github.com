@@ -34,6 +34,7 @@ export const metadata: Metadata = {
     title: "100% Accountability Sales Playbook",
     description: "Own Outcomes, Not Excuses. The faith-driven framework for advisors.",
     type: "website",
+    images: [{ url: '/cover-image.png', width: 1200, height: 630 }],
   },
 };
 

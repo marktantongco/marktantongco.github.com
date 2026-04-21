@@ -1,12 +1,12 @@
 'use client'
 
-import { Shield, Mail, ExternalLink } from 'lucide-react'
+import { Shield, Mail, ExternalLink, Download } from 'lucide-react'
 
 export function Footer() {
   return (
     <footer className="bg-[#0a1525] border-t border-gold/10 py-12">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
           {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-1">
             <div className="flex items-center gap-2 mb-3">
@@ -56,6 +56,29 @@ export function Footer() {
             <p className="text-[#8892a4] text-xs mt-2">
               Affiliate program: 30% commission per sale
             </p>
+          </div>
+
+          {/* Resources */}
+          <div>
+            <h4 className="text-white font-semibold text-sm mb-3">Resources</h4>
+            <a
+              href="/download/100-Accountability-Playbook.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-[#b0b8c8] text-sm hover:text-gold transition-colors"
+            >
+              <Download className="w-3.5 h-3.5" />
+              Playbook (PDF)
+            </a>
+            <a
+              href="/download/100-Accountability-Playbook.pptx"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-[#b0b8c8] text-sm hover:text-gold transition-colors mt-2 block"
+            >
+              <Download className="w-3.5 h-3.5" />
+              Presentation (PPTX)
+            </a>
           </div>
         </div>
 

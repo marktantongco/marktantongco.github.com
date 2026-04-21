@@ -12,7 +12,7 @@ export function FinalCTA({ onEnterCommandCenter }: FinalCTAProps) {
   return (
     <section className="py-16 sm:py-24 bg-[#0d1b2a] relative overflow-hidden">
       {/* Warm amber glow */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#92400e]/8 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#92400e]/10 via-transparent to-transparent" />
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-gold/5 rounded-full blur-3xl" />
 
       <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

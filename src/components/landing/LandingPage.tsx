@@ -29,7 +29,7 @@ export function LandingPage({ onEnterCommandCenter }: LandingPageProps) {
         <WeeklyResetSection />
         <AffiliateSection />
         <BonusesSection />
-        <PricingSection />
+        <PricingSection onEnterCommandCenter={onEnterCommandCenter} />
         <TestimonialsSection />
         <FinalCTA onEnterCommandCenter={onEnterCommandCenter} />
       </main>

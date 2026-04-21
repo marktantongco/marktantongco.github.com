@@ -127,10 +127,14 @@ Here's my link: [your-affiliate-link]"`
               <div className="relative bg-[#0d1b2a] rounded-lg p-3 border border-gold/10 font-mono text-xs text-[#b0b8c8] whitespace-pre-wrap">
                 {outreachScript}
                 <button
-                  onClick={() => {
-                    navigator.clipboard.writeText(outreachScript)
-                    setCopied(true)
-                    setTimeout(() => setCopied(false), 2000)
+                  onClick={async () => {
+                    try {
+                      await navigator.clipboard.writeText(outreachScript)
+                      setCopied(true)
+                      setTimeout(() => setCopied(false), 2000)
+                    } catch {
+                      // Fallback: ignore silently
+                    }
                   }}
                   className="absolute top-2 right-2 p-1.5 rounded-md hover:bg-gold/10 transition-colors"
                   aria-label="Copy script"

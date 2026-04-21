@@ -15,6 +15,7 @@ import {
   ChevronLeft,
   ChevronRight,
   ArrowLeft,
+  Download,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Overview } from './sections/Overview'
@@ -26,6 +27,7 @@ import { TrackerDashboard } from './sections/TrackerDashboard'
 import { FollowUpDashboard } from './sections/FollowUpDashboard'
 import { HuddleDashboard } from './sections/HuddleDashboard'
 import { ChecklistDashboard } from './sections/ChecklistDashboard'
+import { ResourcesDashboard } from './sections/ResourcesDashboard'
 
 const navItems = [
   { id: 'overview', label: 'Overview', icon: Home },
@@ -37,6 +39,7 @@ const navItems = [
   { id: 'follow-up', label: 'Follow-Up System', icon: Phone },
   { id: 'huddle', label: 'Huddle Agenda', icon: UserCheck },
   { id: 'checklist', label: 'Quick-Start', icon: CheckSquare },
+  { id: 'resources', label: 'Resources', icon: Download },
 ]
 
 interface CommandCenterProps {
@@ -50,7 +53,7 @@ export function CommandCenter({ onBack }: CommandCenterProps) {
   const renderContent = () => {
     switch (activeTab) {
       case 'overview':
-        return <Overview />
+        return <Overview onNavigate={(tab) => setActiveTab(tab)} />
       case 'pillars':
         return <PillarsDashboard />
       case 'scripts':
@@ -67,8 +70,10 @@ export function CommandCenter({ onBack }: CommandCenterProps) {
         return <HuddleDashboard />
       case 'checklist':
         return <ChecklistDashboard />
+      case 'resources':
+        return <ResourcesDashboard />
       default:
-        return <Overview />
+        return <Overview onNavigate={(tab) => setActiveTab(tab)} />
     }
   }
 

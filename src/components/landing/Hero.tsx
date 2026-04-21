@@ -25,7 +25,7 @@ export function Hero({ onEnterCommandCenter }: HeroProps) {
 
       {/* Floating accent shapes */}
       <div className="absolute top-20 left-10 w-72 h-72 bg-gold/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-20 right-10 w-96 h-96 bg-gold/3 rounded-full blur-3xl" />
+      <div className="absolute bottom-20 right-10 w-96 h-96 bg-gold/5 rounded-full blur-3xl" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 sm:pt-32 sm:pb-24">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
