@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Shield, Unlock, Lock } from 'lucide-react'
+import { Menu, X, Shield, Unlock, Lock, ExternalLink } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useLocalStorage } from '@/hooks/use-local-storage'
+import { GUMROAD_PRODUCT_URL, PRODUCT_PRICE, STORAGE_KEYS } from '@/lib/config'
 
 interface NavbarProps {
   onEnterCommandCenter: () => void
@@ -21,7 +22,7 @@ export function Navbar({ onEnterCommandCenter }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('')
-  const [unlocked] = useLocalStorage('playbook-unlocked', false)
+  const [unlocked] = useLocalStorage(STORAGE_KEYS.UNLOCKED, false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -107,9 +108,10 @@ export function Navbar({ onEnterCommandCenter }: NavbarProps) {
             >
               Command Center
             </Button>
-            <a href="#pricing">
+            <a href={GUMROAD_PRODUCT_URL} target="_blank" rel="noopener noreferrer">
               <Button className="bg-gold text-[#0d1b2a] hover:bg-gold-dark font-bold shadow-md shadow-gold/10 hover:shadow-gold/20 transition-shadow">
-                Get the Playbook
+                Buy — {PRODUCT_PRICE}
+                <ExternalLink className="ml-1 w-3.5 h-3.5" />
               </Button>
             </a>
           </div>
@@ -168,9 +170,10 @@ export function Navbar({ onEnterCommandCenter }: NavbarProps) {
               >
                 Command Center
               </Button>
-              <a href="#pricing" onClick={() => setMobileOpen(false)}>
+              <a href={GUMROAD_PRODUCT_URL} target="_blank" rel="noopener noreferrer" onClick={() => setMobileOpen(false)}>
                 <Button className="w-full bg-gold text-[#0d1b2a] hover:bg-gold-dark font-bold">
-                  Get the Playbook
+                  Buy — {PRODUCT_PRICE}
+                  <ExternalLink className="ml-1 w-3.5 h-3.5" />
                 </Button>
               </a>
             </div>

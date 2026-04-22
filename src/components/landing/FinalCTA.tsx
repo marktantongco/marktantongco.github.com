@@ -1,14 +1,18 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ArrowRight, Shield } from 'lucide-react'
+import { ArrowRight, Shield, ExternalLink } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { useLocalStorage } from '@/hooks/use-local-storage'
+import { GUMROAD_PRODUCT_URL, PRODUCT_PRICE, STORAGE_KEYS } from '@/lib/config'
 
 interface FinalCTAProps {
   onEnterCommandCenter: () => void
 }
 
 export function FinalCTA({ onEnterCommandCenter }: FinalCTAProps) {
+  const [unlocked] = useLocalStorage(STORAGE_KEYS.UNLOCKED, false)
+
   return (
     <section className="py-16 sm:py-24 bg-[#0d1b2a] relative overflow-hidden">
       {/* Warm amber glow */}
@@ -39,22 +43,33 @@ export function FinalCTA({ onEnterCommandCenter }: FinalCTAProps) {
           <p className="text-gold font-bold text-xl mb-8">Go build a better us.</p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="#pricing">
+            {unlocked ? (
               <Button
                 size="lg"
+                onClick={onEnterCommandCenter}
                 className="bg-gold text-[#0d1b2a] hover:bg-gold-dark font-bold text-base px-8 h-14 w-full sm:w-auto"
               >
-                Get the Playbook
+                Enter Command Center
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
-            </a>
+            ) : (
+              <a href={GUMROAD_PRODUCT_URL} target="_blank" rel="noopener noreferrer">
+                <Button
+                  size="lg"
+                  className="bg-gold text-[#0d1b2a] hover:bg-gold-dark font-bold text-base px-8 h-14 w-full sm:w-auto"
+                >
+                  Buy the Playbook — {PRODUCT_PRICE}
+                  <ExternalLink className="ml-2 w-5 h-5" />
+                </Button>
+              </a>
+            )}
             <Button
               size="lg"
               variant="outline"
               onClick={onEnterCommandCenter}
               className="border-gold/30 text-gold hover:bg-gold/10 hover:text-gold font-semibold text-base px-8 h-14 w-full sm:w-auto"
             >
-              Enter Command Center
+              {unlocked ? 'Command Center' : 'Enter Access Code'}
             </Button>
           </div>
         </motion.div>

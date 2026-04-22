@@ -2,16 +2,19 @@
 
 import { useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ArrowRight, Lock, X, Unlock, Download, FileText, Presentation } from 'lucide-react'
+import { ArrowRight, Lock, X, Unlock, Download, FileText, Presentation, ExternalLink } from 'lucide-react'
 import { LandingPage } from '@/components/landing/LandingPage'
 import { CommandCenter } from '@/components/command-center/CommandCenter'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { Button } from '@/components/ui/button'
 import { useLocalStorage } from '@/hooks/use-local-storage'
 import { useToast } from '@/hooks/use-toast'
+import { validateAccessCode, GUMROAD_PRODUCT_URL, STORAGE_KEYS } from '@/lib/config'
+import { logError } from '@/lib/errors'
 
 export default function Home() {
   const [view, setView] = useState<'landing' | 'command-center'>('landing')
-  const [unlocked, setUnlocked] = useLocalStorage('playbook-unlocked', false)
+  const [unlocked, setUnlocked] = useLocalStorage(STORAGE_KEYS.UNLOCKED, false)
   const [showPasswordModal, setShowPasswordModal] = useState(false)
   const [passwordInput, setPasswordInput] = useState('')
   const [error, setError] = useState('')
@@ -22,7 +25,7 @@ export default function Home() {
   useEffect(() => {
     if (unlocked) {
       setShowUnlockBadge(true)
-      const timer = setTimeout(() => setShowUnlockBadge(false), 3000)
+      const timer = setTimeout(() => setShowUnlockBadge(false), 4000)
       return () => clearTimeout(timer)
     }
   }, [unlocked])
@@ -39,22 +42,28 @@ export default function Home() {
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (passwordInput === '/q123') {
-      setUnlocked(true)
-      setShowPasswordModal(false)
-      setView('command-center')
-      toast({
-        title: '🔓 Playbook Unlocked!',
-        description: 'Welcome to the Command Center. All resources are now available.',
-        duration: 5000,
-      })
-    } else {
-      setError('Incorrect access code. Please try again.')
+    try {
+      const result = validateAccessCode(passwordInput)
+      if (result.valid) {
+        setUnlocked(true)
+        setShowPasswordModal(false)
+        setView('command-center')
+        toast({
+          title: '🔓 Playbook Unlocked!',
+          description: 'Welcome to the Command Center. All resources are now available.',
+          duration: 5000,
+        })
+      } else {
+        setError(result.error || 'Invalid access code.')
+      }
+    } catch (err) {
+      logError(err, 'PasswordSubmit')
+      setError('An error occurred. Please try again.')
     }
   }
 
   return (
-    <>
+    <ErrorBoundary>
       <AnimatePresence mode="wait">
         {view === 'landing' ? (
           <motion.div
@@ -168,7 +177,7 @@ export default function Home() {
               <form onSubmit={handlePasswordSubmit} className="space-y-4">
                 <div>
                   <label htmlFor="global-password-input" className="text-sm text-[#8892a4] mb-2 block">
-                    Enter the access code provided with your purchase
+                    Enter the access code from your purchase confirmation
                   </label>
                   <input
                     id="global-password-input"
@@ -204,13 +213,23 @@ export default function Home() {
                 </Button>
               </form>
 
-              <p className="text-center text-xs text-[#8892a4] mt-4">
-                Enter the access code provided with your purchase
-              </p>
+              {/* Don't have a code? Buy link — CRITICAL: This fixes the $0 revenue problem */}
+              <div className="mt-4 pt-4 border-t border-gold/10 text-center">
+                <p className="text-[#8892a4] text-xs mb-2">Don&apos;t have an access code?</p>
+                <a
+                  href={GUMROAD_PRODUCT_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-gold text-sm font-semibold hover:text-gold-dark transition-colors"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  Purchase the Playbook — $27
+                </a>
+              </div>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </ErrorBoundary>
   )
 }

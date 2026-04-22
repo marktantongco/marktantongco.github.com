@@ -2,10 +2,12 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Check, ArrowRight, BookOpen, FileSpreadsheet, MessageSquare, Phone, Users, CheckSquare, Zap, X, Lock, Unlock, Download, FileText, Presentation } from 'lucide-react'
+import { Check, ArrowRight, BookOpen, FileSpreadsheet, MessageSquare, Phone, Users, CheckSquare, Zap, X, Lock, Unlock, Download, FileText, Presentation, ExternalLink, ShoppingCart } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useLocalStorage } from '@/hooks/use-local-storage'
 import { useToast } from '@/hooks/use-toast'
+import { validateAccessCode, GUMROAD_PRODUCT_URL, PRODUCT_PRICE, STORAGE_KEYS } from '@/lib/config'
+import { logError } from '@/lib/errors'
 
 const included = [
   { icon: BookOpen, text: 'The 3 Pillars of 100% Accountability' },
@@ -30,33 +32,42 @@ interface PricingSectionProps {
 export function PricingSection({ onEnterCommandCenter }: PricingSectionProps) {
   const [showPasswordModal, setShowPasswordModal] = useState(false)
   const [passwordInput, setPasswordInput] = useState('')
-  const [unlocked, setUnlocked] = useLocalStorage('playbook-unlocked', false)
+  const [unlocked, setUnlocked] = useLocalStorage(STORAGE_KEYS.UNLOCKED, false)
   const [error, setError] = useState('')
   const { toast } = useToast()
 
-  const handleButtonClick = () => {
+  /**
+   * CRITICAL FLOW FIX:
+   * - If NOT unlocked: "Buy Now" links to Gumroad checkout (REVENUE!)
+   * - If unlocked: "Enter Command Center" goes to the dashboard
+   * - "Already purchased?" opens the access code modal
+   */
+  const handleBuyClick = () => {
     if (unlocked) {
       onEnterCommandCenter()
-    } else {
-      setShowPasswordModal(true)
-      setPasswordInput('')
-      setError('')
     }
+    // If not unlocked, the <a> tag handles navigation to Gumroad
   }
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (passwordInput === '/q123') {
-      setUnlocked(true)
-      setShowPasswordModal(false)
-      onEnterCommandCenter()
-      toast({
-        title: '🔓 Playbook Unlocked!',
-        description: 'All resources are now available. Welcome to the Command Center!',
-        duration: 5000,
-      })
-    } else {
-      setError('Incorrect access code. Please try again.')
+    try {
+      const result = validateAccessCode(passwordInput)
+      if (result.valid) {
+        setUnlocked(true)
+        setShowPasswordModal(false)
+        onEnterCommandCenter()
+        toast({
+          title: '🔓 Playbook Unlocked!',
+          description: 'All resources are now available. Welcome to the Command Center!',
+          duration: 5000,
+        })
+      } else {
+        setError(result.error || 'Invalid access code.')
+      }
+    } catch (err) {
+      logError(err, 'PricingPasswordSubmit')
+      setError('An error occurred. Please try again.')
     }
   }
 
@@ -97,6 +108,7 @@ export function PricingSection({ onEnterCommandCenter }: PricingSectionProps) {
                 </>
               ) : (
                 <>
+                  <ShoppingCart className="w-3.5 h-3.5 text-gold" />
                   <span className="text-gold text-xs font-bold tracking-wider uppercase">
                     One-Time Payment
                   </span>
@@ -104,7 +116,7 @@ export function PricingSection({ onEnterCommandCenter }: PricingSectionProps) {
               )}
             </div>
             <div className="flex items-baseline justify-center gap-1 mb-2">
-              <span className="text-5xl sm:text-6xl font-black text-gold">$27</span>
+              <span className="text-5xl sm:text-6xl font-black text-gold">{PRODUCT_PRICE}</span>
             </div>
             <p className="text-[#8892a4]">
               {unlocked ? 'Lifetime access unlocked. Download your resources below.' : 'No subscriptions. No hidden fees. Lifetime access.'}
@@ -139,7 +151,6 @@ export function PricingSection({ onEnterCommandCenter }: PricingSectionProps) {
                     <a
                       key={file.filename}
                       href={`/download/${file.filename}`}
-                      download
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -157,31 +168,56 @@ export function PricingSection({ onEnterCommandCenter }: PricingSectionProps) {
             </motion.div>
           )}
 
-          <Button
-            size="lg"
-            className="w-full bg-gold text-[#0d1b2a] hover:bg-gold-dark font-bold text-lg h-14"
-            onClick={handleButtonClick}
-          >
-            {unlocked ? (
-              <>
-                Enter Command Center
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </>
-            ) : (
-              <>
-                Get the Playbook Now
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </>
-            )}
-          </Button>
+          {/* PRIMARY CTA — Different action based on unlock state */}
+          {unlocked ? (
+            <Button
+              size="lg"
+              className="w-full bg-gold text-[#0d1b2a] hover:bg-gold-dark font-bold text-lg h-14"
+              onClick={handleBuyClick}
+            >
+              Enter Command Center
+              <ArrowRight className="ml-2 w-5 h-5" />
+            </Button>
+          ) : (
+            <a
+              href={GUMROAD_PRODUCT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block"
+            >
+              <Button
+                size="lg"
+                className="w-full bg-gold text-[#0d1b2a] hover:bg-gold-dark font-bold text-lg h-14"
+              >
+                Buy Now — {PRODUCT_PRICE}
+                <ExternalLink className="ml-2 w-5 h-5" />
+              </Button>
+            </a>
+          )}
 
-          <p className="text-center text-xs text-[#8892a4] mt-4">
+          {/* "Already purchased?" link — CRITICAL: Fixes the circular UX */}
+          {!unlocked && (
+            <div className="text-center mt-4">
+              <button
+                onClick={() => {
+                  setShowPasswordModal(true)
+                  setPasswordInput('')
+                  setError('')
+                }}
+                className="text-[#8892a4] text-xs hover:text-gold transition-colors underline underline-offset-2"
+              >
+                Already purchased? Enter your access code
+              </button>
+            </div>
+          )}
+
+          <p className="text-center text-xs text-[#8892a4] mt-3">
             30-day money-back guarantee. Email mark.tantongco@gmail.com for support.
           </p>
         </motion.div>
       </div>
 
-      {/* Password Modal */}
+      {/* Password Modal — Only for returning customers */}
       <AnimatePresence>
         {showPasswordModal && (
           <motion.div
@@ -236,7 +272,7 @@ export function PricingSection({ onEnterCommandCenter }: PricingSectionProps) {
               <form onSubmit={handlePasswordSubmit} className="space-y-4">
                 <div>
                   <label htmlFor="password-input" className="text-sm text-[#8892a4] mb-2 block">
-                    Enter the access code provided with your purchase
+                    Enter the access code from your purchase confirmation
                   </label>
                   <input
                     id="password-input"
@@ -272,9 +308,19 @@ export function PricingSection({ onEnterCommandCenter }: PricingSectionProps) {
                 </Button>
               </form>
 
-              <p className="text-center text-xs text-[#8892a4] mt-4">
-                Enter the access code provided with your purchase
-              </p>
+              {/* Don't have a code? Buy link */}
+              <div className="mt-4 pt-4 border-t border-gold/10 text-center">
+                <p className="text-[#8892a4] text-xs mb-2">Don&apos;t have an access code?</p>
+                <a
+                  href={GUMROAD_PRODUCT_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-gold text-sm font-semibold hover:text-gold-dark transition-colors"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  Purchase the Playbook — {PRODUCT_PRICE}
+                </a>
+              </div>
             </motion.div>
           </motion.div>
         )}

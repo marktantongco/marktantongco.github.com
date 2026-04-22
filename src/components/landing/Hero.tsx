@@ -1,8 +1,10 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ArrowRight, Shield, Sparkles } from 'lucide-react'
+import { ArrowRight, Sparkles, ExternalLink } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { useLocalStorage } from '@/hooks/use-local-storage'
+import { GUMROAD_PRODUCT_URL, PRODUCT_PRICE, STORAGE_KEYS } from '@/lib/config'
 import Image from 'next/image'
 
 interface HeroProps {
@@ -10,6 +12,8 @@ interface HeroProps {
 }
 
 export function Hero({ onEnterCommandCenter }: HeroProps) {
+  const [unlocked] = useLocalStorage(STORAGE_KEYS.UNLOCKED, false)
+
   return (
     <section id="hero" className="relative min-h-screen flex items-center overflow-hidden bg-navy-gradient">
       {/* Background pattern */}
@@ -33,11 +37,6 @@ export function Hero({ onEnterCommandCenter }: HeroProps) {
         animate={{ y: [0, 20, 0], opacity: [0.2, 0.4, 0.2] }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
         className="absolute bottom-20 right-10 w-96 h-96 bg-gold/5 rounded-full blur-3xl"
-      />
-      <motion.div
-        animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }}
-        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold/3 rounded-full blur-3xl"
       />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 sm:pt-32 sm:pb-24">
@@ -77,26 +76,38 @@ export function Hero({ onEnterCommandCenter }: HeroProps) {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <a href="#pricing">
+              {/* PRIMARY CTA: Buy on Gumroad (revenue!) or Enter Command Center if already unlocked */}
+              {unlocked ? (
                 <Button
                   size="lg"
+                  onClick={onEnterCommandCenter}
                   className="bg-gold text-[#0d1b2a] hover:bg-gold-dark font-bold text-base px-8 h-14 w-full sm:w-auto shadow-lg shadow-gold/20 hover:shadow-gold/30 transition-shadow"
                 >
-                  Get the Playbook
+                  Enter Command Center
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
-              </a>
+              ) : (
+                <a href={GUMROAD_PRODUCT_URL} target="_blank" rel="noopener noreferrer">
+                  <Button
+                    size="lg"
+                    className="bg-gold text-[#0d1b2a] hover:bg-gold-dark font-bold text-base px-8 h-14 w-full sm:w-auto shadow-lg shadow-gold/20 hover:shadow-gold/30 transition-shadow"
+                  >
+                    Buy the Playbook — {PRODUCT_PRICE}
+                    <ExternalLink className="ml-2 w-5 h-5" />
+                  </Button>
+                </a>
+              )}
               <Button
                 size="lg"
                 variant="outline"
                 onClick={onEnterCommandCenter}
                 className="border-gold/30 text-gold hover:bg-gold/10 hover:text-gold font-semibold text-base px-8 h-14 w-full sm:w-auto"
               >
-                Enter Command Center
+                {unlocked ? 'Command Center' : 'Enter Access Code'}
               </Button>
             </div>
 
-            {/* Social proof mini */}
+            {/* Social proof */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -131,7 +142,6 @@ export function Hero({ onEnterCommandCenter }: HeroProps) {
             className="relative flex justify-center lg:justify-end"
           >
             <div className="relative w-full max-w-md lg:max-w-lg">
-              {/* Animated glow ring */}
               <motion.div
                 animate={{ scale: [1, 1.05, 1], opacity: [0.3, 0.5, 0.3] }}
                 transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
@@ -153,13 +163,13 @@ export function Hero({ onEnterCommandCenter }: HeroProps) {
                   <p className="text-[#8892a4] text-sm mt-1">by Mark Anthony Ng Tantongco</p>
                 </div>
 
-                {/* Floating badge */}
+                {/* Floating price badge */}
                 <motion.div
                   animate={{ y: [0, -5, 0] }}
                   transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
                   className="absolute -top-3 -right-3 bg-gold text-[#0d1b2a] text-xs font-black px-3 py-1.5 rounded-full shadow-lg"
                 >
-                  $27
+                  {PRODUCT_PRICE}
                 </motion.div>
               </div>
             </div>

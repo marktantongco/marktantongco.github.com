@@ -8,6 +8,8 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { useLocalStorage } from '@/hooks/use-local-storage'
 import { useToast } from '@/hooks/use-toast'
+import { validateAccessCode, DOWNLOAD_RESOURCES, GUMROAD_PRODUCT_URL, PRODUCT_PRICE, STORAGE_KEYS, type DownloadResource } from '@/lib/config'
+import { logError } from '@/lib/errors'
 
 const resources = [
   {

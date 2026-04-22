@@ -2,9 +2,10 @@
 
 import { Shield, Mail, ExternalLink, Download, FileText, Presentation, Lock, Unlock } from 'lucide-react'
 import { useLocalStorage } from '@/hooks/use-local-storage'
+import { GUMROAD_PRODUCT_URL, PRODUCT_PRICE, STORAGE_KEYS } from '@/lib/config'
 
 export function Footer() {
-  const [unlocked] = useLocalStorage('playbook-unlocked', false)
+  const [unlocked] = useLocalStorage(STORAGE_KEYS.UNLOCKED, false)
 
   return (
     <footer className="bg-[#0a1525] border-t border-gold/10 py-12">
