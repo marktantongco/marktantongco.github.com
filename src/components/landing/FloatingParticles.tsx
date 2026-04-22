@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useMemo } from 'react'
+import { useState, useEffect } from 'react'
 
 interface FloatingParticlesProps {
   count?: number
@@ -11,6 +11,16 @@ interface FloatingParticlesProps {
   className?: string
 }
 
+interface Particle {
+  id: number
+  x: number
+  y: number
+  size: number
+  duration: number
+  delay: number
+  opacity: number
+}
+
 export function FloatingParticles({
   count = 20,
   color = '#c9a84c',
@@ -18,17 +28,29 @@ export function FloatingParticles({
   maxSize = 6,
   className = '',
 }: FloatingParticlesProps) {
-  const particles = useMemo(() => {
-    return Array.from({ length: count }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: minSize + Math.random() * (maxSize - minSize),
-      duration: 15 + Math.random() * 20,
-      delay: Math.random() * 10,
-      opacity: 0.1 + Math.random() * 0.3,
-    }))
+  // Defer particle generation to client-only to prevent hydration mismatch.
+  // Math.random() produces different values on server vs client, so we
+  // must generate particles only after hydration completes.
+  const [particles, setParticles] = useState<Particle[]>([])
+
+  useEffect(() => {
+    setParticles(
+      Array.from({ length: count }, (_, i) => ({
+        id: i,
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        size: minSize + Math.random() * (maxSize - minSize),
+        duration: 15 + Math.random() * 20,
+        delay: Math.random() * 10,
+        opacity: 0.1 + Math.random() * 0.3,
+      }))
+    )
   }, [count, minSize, maxSize])
+
+  // Render nothing during SSR — particles appear after hydration
+  if (particles.length === 0) {
+    return <div className={`absolute inset-0 overflow-hidden pointer-events-none ${className}`} />
+  }
 
   return (
     <div className={`absolute inset-0 overflow-hidden pointer-events-none ${className}`}>
