@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { Target, MessageSquare, Zap } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { AnimatedComparisonTable } from './AnimatedComparisonTable'
 
 const pillars = [
   {
@@ -97,25 +98,13 @@ export function PillarsSection() {
                   )}
 
                   {pillar.table && (
-                    <div className="rounded-lg overflow-hidden border border-gold/10">
-                      <table className="w-full text-xs">
-                        <thead>
-                          <tr className="bg-gold/10">
-                            <th className="text-left p-2 text-gold font-semibold">
-                              Instead of...
-                            </th>
-                            <th className="text-left p-2 text-gold font-semibold">Say this...</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {pillar.table.map((row, i) => (
-                            <tr key={i} className="border-t border-gold/5">
-                              <td className="p-2 text-[#8892a4]">{row[0]}</td>
-                              <td className="p-2 text-white font-medium">{row[1]}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                    <div className="mt-2">
+                      <p className="text-xs text-gold font-semibold uppercase tracking-wider mb-3 flex items-center gap-2">
+                        <span>Instead of...</span>
+                        <span className="text-[#8892a4]">→</span>
+                        <span>Say this</span>
+                      </p>
+                      <AnimatedComparisonTable />
                     </div>
                   )}
 

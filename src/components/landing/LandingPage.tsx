@@ -2,6 +2,7 @@
 
 import { Navbar } from './Navbar'
 import { Hero } from './Hero'
+import { StatsSection } from './StatsSection'
 import { FaithSection } from './FaithSection'
 import { PillarsSection } from './PillarsSection'
 import { ScriptsPreview } from './ScriptsPreview'
@@ -23,6 +24,7 @@ export function LandingPage({ onEnterCommandCenter }: LandingPageProps) {
       <Navbar onEnterCommandCenter={onEnterCommandCenter} />
       <main className="flex-1">
         <Hero onEnterCommandCenter={onEnterCommandCenter} />
+        <StatsSection />
         <FaithSection />
         <PillarsSection />
         <ScriptsPreview />

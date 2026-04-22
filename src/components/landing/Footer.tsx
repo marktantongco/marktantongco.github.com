@@ -1,14 +1,14 @@
 'use client'
 
-import { Shield, Mail, ExternalLink, Download, FileText, Presentation, Lock, Unlock } from 'lucide-react'
+import { Shield, Mail, ExternalLink, Download, FileText, Presentation, Lock, Unlock, Heart } from 'lucide-react'
 import { useLocalStorage } from '@/hooks/use-local-storage'
-import { GUMROAD_PRODUCT_URL, PRODUCT_PRICE, STORAGE_KEYS } from '@/lib/config'
+import { GUMROAD_PRODUCT_URL, PRODUCT_PRICE, STORAGE_KEYS, SUPPORT_EMAIL } from '@/lib/config'
 
 export function Footer() {
   const [unlocked] = useLocalStorage(STORAGE_KEYS.UNLOCKED, false)
 
   return (
-    <footer className="bg-[#0a1525] border-t border-gold/10 py-12">
+    <footer className="bg-[#0a1525] border-t border-gold/10 py-12" role="contentinfo">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
           {/* Brand */}
@@ -24,7 +24,6 @@ export function Footer() {
             <p className="text-[#8892a4] text-sm">
               Own Outcomes, Not Excuses. The faith-driven framework for purpose-driven professionals.
             </p>
-            {/* Unlock status indicator */}
             <div className="mt-3 flex items-center gap-2">
               {unlocked ? (
                 <>
@@ -43,7 +42,7 @@ export function Footer() {
           {/* Author */}
           <div>
             <h4 className="text-white font-semibold text-sm mb-3">Author</h4>
-            <p className="text-[#b0b8c8] text-sm">Mark Anthony Ng Tantongco</p>
+            <p className="text-[#b0b8c8] text-sm" itemProp="author">Mark Anthony Ng Tantongco</p>
             <p className="text-[#8892a4] text-xs">Agency Sales Director | MDRT</p>
           </div>
 
@@ -51,11 +50,20 @@ export function Footer() {
           <div>
             <h4 className="text-white font-semibold text-sm mb-3">Support</h4>
             <a
-              href="mailto:mark.tantongco@gmail.com"
+              href={`mailto:${SUPPORT_EMAIL}`}
               className="flex items-center gap-2 text-[#b0b8c8] text-sm hover:text-gold transition-colors"
             >
               <Mail className="w-3.5 h-3.5" />
-              mark.tantongco@gmail.com
+              {SUPPORT_EMAIL}
+            </a>
+            <a
+              href="https://marktantongco.typeform.com/to/playbook-takeaway"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-[#b0b8c8] text-sm hover:text-gold transition-colors mt-2"
+            >
+              <ExternalLink className="w-3.5 h-3.5" />
+              Share Your Takeaway
             </a>
           </div>
 
@@ -63,13 +71,13 @@ export function Footer() {
           <div>
             <h4 className="text-white font-semibold text-sm mb-3">Community</h4>
             <a
-              href="https://marktantongco.typeform.com/to/playbook-takeaway"
+              href={GUMROAD_PRODUCT_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-[#b0b8c8] text-sm hover:text-gold transition-colors"
             >
               <ExternalLink className="w-3.5 h-3.5" />
-              Share Your Takeaway
+              Buy the Playbook — {PRODUCT_PRICE}
             </a>
             <p className="text-[#8892a4] text-xs mt-2">
               Affiliate program: 30% commission per sale
@@ -80,7 +88,7 @@ export function Footer() {
           <div>
             <h4 className="text-white font-semibold text-sm mb-3">Resources</h4>
             {unlocked ? (
-              <div className="space-y-2">
+              <nav aria-label="Downloadable resources" className="space-y-2">
                 <a
                   href="/download/100-Accountability-Playbook.pdf"
                   target="_blank"
@@ -117,7 +125,7 @@ export function Footer() {
                   <Download className="w-3.5 h-3.5" />
                   Tracker Template
                 </a>
-              </div>
+              </nav>
             ) : (
               <p className="text-[#8892a4] text-xs italic">
                 Unlock with access code to see downloads
@@ -130,8 +138,8 @@ export function Footer() {
           <p className="text-[#8892a4] text-xs">
             &copy; {new Date().getFullYear()} 100% Accountability Sales Playbook. All rights reserved.
           </p>
-          <p className="text-[#8892a4] text-xs">
-            Built with faith. Driven by purpose.
+          <p className="text-[#8892a4] text-xs flex items-center gap-1">
+            Built with <Heart className="w-3 h-3 text-[#b45309] fill-[#b45309]" />. Driven by purpose.
           </p>
         </div>
       </div>

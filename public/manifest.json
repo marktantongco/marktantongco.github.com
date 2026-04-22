@@ -1,0 +1,22 @@
+{
+  "name": "100% Accountability Sales Playbook",
+  "short_name": "Accountability Playbook",
+  "description": "The faith-driven framework for Filipino advisors who own results, lead stronger teams, and sell with integrity.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d1b2a",
+  "theme_color": "#c9a84c",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/cover-image.png",
+      "sizes": "1200x630",
+      "type": "image/png"
+    }
+  ]
+}

@@ -5,6 +5,7 @@ import { ArrowRight, Sparkles, ExternalLink } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useLocalStorage } from '@/hooks/use-local-storage'
 import { GUMROAD_PRODUCT_URL, PRODUCT_PRICE, STORAGE_KEYS } from '@/lib/config'
+import { FloatingParticles } from './FloatingParticles'
 import Image from 'next/image'
 
 interface HeroProps {
@@ -26,6 +27,9 @@ export function Hero({ onEnterCommandCenter }: HeroProps) {
           }}
         />
       </div>
+
+      {/* Floating particles background */}
+      <FloatingParticles count={15} />
 
       {/* Animated floating accent shapes */}
       <motion.div

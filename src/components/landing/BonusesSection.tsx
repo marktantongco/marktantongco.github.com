@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { FileSpreadsheet, Phone, Users, CheckSquare } from 'lucide-react'
+import { FileSpreadsheet, Phone, Users, CheckSquare, Download } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 
@@ -14,6 +14,7 @@ const bonuses = [
     description:
       'A weekly tracking template that records your goals, actions, results, ownership reflections, and adjustments. Fill one row per week. After 4-6 weeks, patterns emerge that reveal your blind spots and your strengths.',
     file: 'Accountability-Tracker-Template.xlsx',
+    accent: '#4ade80',
   },
   {
     icon: Phone,
@@ -23,6 +24,7 @@ const bonuses = [
     description:
       'Never let a warm lead go cold. This template includes a complete follow-up sequence with timing, scripts, and CRM pipeline tags. Copy into Notion or Google Docs and customize for your practice.',
     file: 'Client-FollowUp-System.md',
+    accent: '#c9a84c',
   },
   {
     icon: Users,
@@ -32,6 +34,7 @@ const bonuses = [
     description:
       'A 15-minute Monday morning huddle template that keeps your team aligned, accountable, and blame-free. Includes strict timeboxing, ground rules, and leader preparation checklist.',
     file: 'Team-Huddle-Agenda-Template.md',
+    accent: '#f97316',
   },
   {
     icon: CheckSquare,
@@ -41,12 +44,13 @@ const bonuses = [
     description:
       'A day-by-day launch plan that takes you from reading this playbook to operating at 100% accountability in one week. Print it. Check boxes. Win.',
     file: 'BONUS-Quick-Start-Checklist.pdf',
+    accent: '#a78bfa',
   },
 ]
 
 export function BonusesSection() {
   return (
-    <section id="bonuses" className="py-16 sm:py-24 bg-[#1b2838]">
+    <section id="bonuses" className="py-16 sm:py-24 bg-[#1b2838] relative overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -63,29 +67,52 @@ export function BonusesSection() {
           <p className="text-[#b0b8c8] max-w-2xl mx-auto">
             Every bonus is designed for immediate implementation. No theory—just tools you can use today.
           </p>
+          <motion.div
+            initial={{ scale: 0 }}
+            whileInView={{ scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3, type: 'spring', stiffness: 150 }}
+            className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-full bg-gold/10 border border-gold/20"
+          >
+            <Download className="w-4 h-4 text-gold" />
+            <span className="text-gold text-sm font-bold">4 Downloadable Resources Included</span>
+          </motion.div>
         </motion.div>
 
         <div className="grid sm:grid-cols-2 gap-6">
           {bonuses.map((bonus, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 30, rotateX: 5 }}
+              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
+              transition={{ delay: index * 0.12, duration: 0.5 }}
+              whileHover={{ y: -4, transition: { duration: 0.2 } }}
             >
-              <Card className="bg-[#0d1b2a] border-gold/10 hover:border-gold/25 transition-all h-full">
+              <Card className="bg-[#0d1b2a] border-gold/10 hover:border-gold/25 transition-all h-full overflow-hidden group">
+                {/* Top accent line */}
+                <div
+                  className="h-1 w-0 group-hover:w-full transition-all duration-500"
+                  style={{ backgroundColor: bonus.accent }}
+                />
                 <CardHeader className="pb-3">
                   <div className="flex items-start justify-between mb-3">
-                    <div className="w-12 h-12 rounded-lg bg-gold/10 flex items-center justify-center">
-                      <bonus.icon className="w-6 h-6 text-gold" />
-                    </div>
+                    <motion.div
+                      initial={{ scale: 0, rotate: -90 }}
+                      whileInView={{ scale: 1, rotate: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.2 + index * 0.12, type: 'spring', stiffness: 200 }}
+                      className="w-12 h-12 rounded-lg flex items-center justify-center"
+                      style={{ backgroundColor: `${bonus.accent}15`, border: `1px solid ${bonus.accent}30` }}
+                    >
+                      <bonus.icon className="w-6 h-6" style={{ color: bonus.accent }} />
+                    </motion.div>
                     <Badge className="bg-[#0d1b2a] text-gold border border-gold/30 font-bold text-[10px] tracking-widest">
                       {bonus.badge}
                     </Badge>
                   </div>
                   <CardTitle className="text-white text-lg">{bonus.title}</CardTitle>
-                  <p className="text-gold text-sm font-medium">{bonus.subtitle}</p>
+                  <p className="text-sm font-medium" style={{ color: bonus.accent }}>{bonus.subtitle}</p>
                 </CardHeader>
                 <CardContent>
                   <p className="text-[#b0b8c8] text-sm leading-relaxed mb-3">
