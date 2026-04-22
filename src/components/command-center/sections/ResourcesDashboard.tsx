@@ -2,11 +2,12 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Download, FileText, Presentation, FileSpreadsheet, FileCode, Image, Lock, ArrowRight, X } from 'lucide-react'
+import { Download, FileText, Presentation, FileSpreadsheet, FileCode, Image, Lock, ArrowRight, X, Check } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { useLocalStorage } from '@/hooks/use-local-storage'
+import { useToast } from '@/hooks/use-toast'
 
 const resources = [
   {
@@ -81,14 +82,34 @@ export function ResourcesDashboard() {
   const [passwordInput, setPasswordInput] = useState('')
   const [error, setError] = useState('')
 
+  const { toast } = useToast()
+
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (passwordInput === '/q123') {
       setUnlocked(true)
       setShowPasswordModal(false)
+      toast({
+        title: '🔓 Resources Unlocked!',
+        description: 'All 8 files are now available for download.',
+        duration: 4000,
+      })
     } else {
       setError('Incorrect access code. Please try again.')
     }
+  }
+
+  const [downloadedFiles, setDownloadedFiles] = useLocalStorage<string[]>('playbook-downloaded', [])
+
+  const handleDownload = (filename: string) => {
+    setDownloadedFiles(prev => 
+      prev.includes(filename) ? prev : [...prev, filename]
+    )
+    toast({
+      title: 'Download started',
+      description: filename,
+      duration: 3000,
+    })
   }
 
   if (!unlocked) {
@@ -251,13 +272,27 @@ export function ResourcesDashboard() {
                       download
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={() => handleDownload(resource.filename)}
                     >
                       <Button
                         size="sm"
-                        className="w-full bg-gold/10 text-gold hover:bg-gold/20 border border-gold/20 font-semibold"
+                        className={`w-full font-semibold ${
+                          downloadedFiles.includes(resource.filename)
+                            ? 'bg-green-500/10 text-green-400 hover:bg-green-500/20 border border-green-500/20'
+                            : 'bg-gold/10 text-gold hover:bg-gold/20 border border-gold/20'
+                        }`}
                       >
-                        <Download className="w-3.5 h-3.5 mr-2" />
-                        Download
+                        {downloadedFiles.includes(resource.filename) ? (
+                          <>
+                            <Check className="w-3.5 h-3.5 mr-2" />
+                            Downloaded
+                          </>
+                        ) : (
+                          <>
+                            <Download className="w-3.5 h-3.5 mr-2" />
+                            Download
+                          </>
+                        )}
                       </Button>
                     </a>
                   </div>

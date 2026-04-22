@@ -2,9 +2,10 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Check, ArrowRight, BookOpen, FileSpreadsheet, MessageSquare, Phone, Users, CheckSquare, Zap, X, Lock } from 'lucide-react'
+import { Check, ArrowRight, BookOpen, FileSpreadsheet, MessageSquare, Phone, Users, CheckSquare, Zap, X, Lock, Unlock, Download, FileText, Presentation } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useLocalStorage } from '@/hooks/use-local-storage'
+import { useToast } from '@/hooks/use-toast'
 
 const included = [
   { icon: BookOpen, text: 'The 3 Pillars of 100% Accountability' },
@@ -17,6 +18,11 @@ const included = [
   { icon: CheckSquare, text: '7-Day Quick-Start Checklist' },
 ]
 
+const quickDownloads = [
+  { name: 'Playbook (PDF)', filename: '100-Accountability-Playbook.pdf', icon: FileText, color: 'text-red-400' },
+  { name: 'Presentation (PPTX)', filename: '100-Accountability-Playbook.pptx', icon: Presentation, color: 'text-orange-400' },
+]
+
 interface PricingSectionProps {
   onEnterCommandCenter: () => void
 }
@@ -26,6 +32,7 @@ export function PricingSection({ onEnterCommandCenter }: PricingSectionProps) {
   const [passwordInput, setPasswordInput] = useState('')
   const [unlocked, setUnlocked] = useLocalStorage('playbook-unlocked', false)
   const [error, setError] = useState('')
+  const { toast } = useToast()
 
   const handleButtonClick = () => {
     if (unlocked) {
@@ -43,6 +50,11 @@ export function PricingSection({ onEnterCommandCenter }: PricingSectionProps) {
       setUnlocked(true)
       setShowPasswordModal(false)
       onEnterCommandCenter()
+      toast({
+        title: '🔓 Playbook Unlocked!',
+        description: 'All resources are now available. Welcome to the Command Center!',
+        duration: 5000,
+      })
     } else {
       setError('Incorrect access code. Please try again.')
     }
@@ -76,14 +88,27 @@ export function PricingSection({ onEnterCommandCenter }: PricingSectionProps) {
         >
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/10 border border-gold/30 mb-4">
-              <span className="text-gold text-xs font-bold tracking-wider uppercase">
-                One-Time Payment
-              </span>
+              {unlocked ? (
+                <>
+                  <Unlock className="w-3.5 h-3.5 text-green-400" />
+                  <span className="text-green-400 text-xs font-bold tracking-wider uppercase">
+                    Unlocked
+                  </span>
+                </>
+              ) : (
+                <>
+                  <span className="text-gold text-xs font-bold tracking-wider uppercase">
+                    One-Time Payment
+                  </span>
+                </>
+              )}
             </div>
             <div className="flex items-baseline justify-center gap-1 mb-2">
               <span className="text-5xl sm:text-6xl font-black text-gold">$27</span>
             </div>
-            <p className="text-[#8892a4]">No subscriptions. No hidden fees. Lifetime access.</p>
+            <p className="text-[#8892a4]">
+              {unlocked ? 'Lifetime access unlocked. Download your resources below.' : 'No subscriptions. No hidden fees. Lifetime access.'}
+            </p>
           </div>
 
           <div className="space-y-3 mb-8">
@@ -96,6 +121,41 @@ export function PricingSection({ onEnterCommandCenter }: PricingSectionProps) {
               </div>
             ))}
           </div>
+
+          {/* Quick Download Section - only visible when unlocked */}
+          {unlocked && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              className="mb-6"
+            >
+              <div className="bg-[#0d1b2a] rounded-xl p-4 border border-gold/10">
+                <p className="text-xs text-gold font-semibold uppercase tracking-wider mb-3 flex items-center gap-2">
+                  <Download className="w-3.5 h-3.5" />
+                  Quick Download
+                </p>
+                <div className="grid grid-cols-2 gap-3">
+                  {quickDownloads.map((file) => (
+                    <a
+                      key={file.filename}
+                      href={`/download/${file.filename}`}
+                      download
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Button
+                        size="sm"
+                        className="w-full bg-gold/10 text-gold hover:bg-gold/20 border border-gold/20 font-semibold"
+                      >
+                        <file.icon className={`w-3.5 h-3.5 mr-2 ${file.color}`} />
+                        {file.name}
+                      </Button>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          )}
 
           <Button
             size="lg"
@@ -154,6 +214,25 @@ export function PricingSection({ onEnterCommandCenter }: PricingSectionProps) {
                 </button>
               </div>
 
+              {/* What you get preview */}
+              <div className="bg-[#0d1b2a] rounded-lg p-4 border border-gold/10 mb-6">
+                <p className="text-xs text-gold font-semibold uppercase tracking-wider mb-3">After unlocking, you get access to:</p>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <FileText className="w-3.5 h-3.5 text-gold" />
+                    <span className="text-[#b0b8c8] text-xs">Full Playbook (PDF) + Presentation (PPTX)</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Download className="w-3.5 h-3.5 text-gold" />
+                    <span className="text-[#b0b8c8] text-xs">8 downloadable resources</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Unlock className="w-3.5 h-3.5 text-gold" />
+                    <span className="text-[#b0b8c8] text-xs">Interactive Command Center dashboard</span>
+                  </div>
+                </div>
+              </div>
+
               <form onSubmit={handlePasswordSubmit} className="space-y-4">
                 <div>
                   <label htmlFor="password-input" className="text-sm text-[#8892a4] mb-2 block">
@@ -174,7 +253,13 @@ export function PricingSection({ onEnterCommandCenter }: PricingSectionProps) {
                 </div>
 
                 {error && (
-                  <p className="text-red-400 text-sm">{error}</p>
+                  <motion.p
+                    initial={{ opacity: 0, y: -5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-red-400 text-sm bg-red-400/10 rounded-lg px-3 py-2"
+                  >
+                    {error}
+                  </motion.p>
                 )}
 
                 <Button

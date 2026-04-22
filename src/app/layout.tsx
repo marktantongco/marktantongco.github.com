@@ -14,6 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://marktantongco.github.com'),
   title: "100% Accountability Sales Playbook | Own Outcomes, Not Excuses",
   description:
     "The faith-driven framework for Filipino advisors who own results, lead stronger teams, and sell with integrity. By Mark Anthony Ng Tantongco.",
@@ -35,6 +36,12 @@ export const metadata: Metadata = {
     description: "Own Outcomes, Not Excuses. The faith-driven framework for advisors.",
     type: "website",
     images: [{ url: '/cover-image.png', width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: '100% Accountability Sales Playbook',
+    description: 'Own Outcomes, Not Excuses. The faith-driven framework for advisors.',
+    images: ['/cover-image.png'],
   },
 };
 

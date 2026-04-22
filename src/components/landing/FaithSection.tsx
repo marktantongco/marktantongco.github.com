@@ -5,7 +5,7 @@ import { Cross, Quote } from 'lucide-react'
 
 export function FaithSection() {
   return (
-    <section className="py-16 sm:py-24 bg-[#0d1b2a] relative overflow-hidden">
+    <section id="faith" className="py-16 sm:py-24 bg-[#0d1b2a] relative overflow-hidden">
       {/* Warm amber gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#92400e]/5 to-transparent" />
 

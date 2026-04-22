@@ -44,6 +44,10 @@ All files are available in the **Command Center → Resources** tab after unlock
 
 > **Vercel mirrors**: Replace `marktantongco.github.com` with `accountability-playbook.vercel.app` in any link above.
 
+### Quick Download (After Unlocking)
+
+After entering the access code, the **Pricing section** on the landing page reveals quick-download buttons for the PDF and PPTX files. The **Footer** also shows download links when unlocked. The **Command Center → Resources** tab provides the full download center with download tracking.
+
 ---
 
 ## Overview
@@ -55,6 +59,8 @@ This is the official web application for **The 100% Accountability Sales Playboo
 - **Landing Page** — A full marketing/sales page showcasing the playbook's value proposition, the 3 Pillars of Accountability, ownership scripts, weekly reset routine, affiliate program, bonuses, and pricing
 - **Command Center** — An interactive dashboard where buyers can practice scripts, track weekly resets, manage their accountability tracker, implement the 3-Touch follow-up system, run team huddles, download resources, and complete the 7-day quick-start checklist
 - **Password Gate** — Access code `/q123` protects the Command Center and downloadable resources, with persistent unlock via localStorage
+- **Toast Notifications** — Visual feedback on unlock success, download tracking, and clipboard operations
+- **Scroll Spy Navigation** — Active section highlighting in the navbar as you scroll through the landing page
 
 ---
 
@@ -62,18 +68,18 @@ This is the official web application for **The 100% Accountability Sales Playboo
 
 ### Landing Page
 
-| Section | Description |
-|---------|-------------|
-| **Hero** | "Own Outcomes, Not Excuses" headline with product mockup and dual CTAs |
-| **Faith Section** | Philippians 4:13 and the faith-driven competitive advantage |
-| **3 Pillars** | Fix the Problem, Words Create Worlds, Faith + Framework = Freedom |
-| **Ownership Scripts** | Collapsible accordion with copy-to-clipboard for all 5 scripts |
-| **Weekly Reset** | 4-step visual: Review, Reflect, Recharge, Plan |
-| **Affiliate Advantage** | 30% commission program with quick math and outreach script |
-| **Bonuses** | 4 bonus resources: Tracker, Follow-Up System, Huddle Agenda, Checklist |
-| **Pricing** | $27 one-time with password-gated access (code: `/q123`) |
-| **Testimonials** | Social proof section |
-| **Final CTA** | Motivational close with "You were created to lead" |
+| Section | ID | Description |
+|---------|-----|-------------|
+| **Hero** | `#hero` | "Own Outcomes, Not Excuses" headline with animated product mockup, social proof, and dual CTAs |
+| **Faith Section** | `#faith` | Philippians 4:13 and the faith-driven competitive advantage |
+| **3 Pillars** | `#pillars` | Fix the Problem, Words Create Worlds, Faith + Framework = Freedom |
+| **Ownership Scripts** | `#scripts` | Collapsible accordion with copy-to-clipboard for all 3 scripts |
+| **Weekly Reset** | `#weekly-reset` | 4-step visual: Review, Reflect, Recharge, Plan |
+| **Affiliate Advantage** | `#affiliate` | 30% commission program with quick math and outreach script |
+| **Bonuses** | `#bonuses` | 4 bonus resources: Tracker, Follow-Up System, Huddle Agenda, Checklist |
+| **Pricing** | `#pricing` | $27 one-time with password-gated access (code: `/q123`) + quick download after unlock |
+| **Testimonials** | `#testimonials` | Social proof section with star ratings |
+| **Final CTA** | — | Motivational close with "You were created to lead" |
 
 ### Command Center Dashboard
 
@@ -88,7 +94,7 @@ This is the official web application for **The 100% Accountability Sales Playboo
 | **Follow-Up System** | 3-Touch Rule scripts, color-coded pipeline tags (BLUE/YELLOW/GREEN/WHITE) |
 | **Huddle Agenda** | 15-minute timer with timebox sections, leader prep checklist |
 | **Quick-Start Checklist** | 7-day interactive checklist with progress bar (saved to localStorage) |
-| **Resources** | Download all playbook files (PDF, PPTX, XLSX, MD, PNG) — password protected |
+| **Resources** | Download all playbook files (PDF, PPTX, XLSX, MD, PNG) — password protected with download tracking |
 
 ---
 
@@ -97,13 +103,13 @@ This is the official web application for **The 100% Accountability Sales Playboo
 | Technology | Purpose |
 |------------|---------|
 | **Next.js 16** | React framework with App Router, static export |
-| **TypeScript 5** | Type-safe development |
+| **TypeScript 5** | Type-safe development (strict mode, zero errors) |
 | **Tailwind CSS 4** | Utility-first styling |
 | **shadcn/ui** | UI component library (New York style) |
 | **Framer Motion** | Animations and transitions |
 | **Recharts** | Data visualization |
 | **Lucide React** | Icon library |
-| **localStorage** | Client-side data persistence + unlock state |
+| **localStorage** | Client-side data persistence + unlock state + download tracking |
 
 ---
 
@@ -130,22 +136,22 @@ marktantongco.github.com/
 ├── src/
 │   ├── app/
 │   │   ├── globals.css          # Global styles + custom theme
-│   │   ├── layout.tsx           # Root layout with metadata + OG image
-│   │   └── page.tsx             # Main page (view switcher + password gate)
+│   │   ├── layout.tsx           # Root layout with metadata + OG image + Twitter cards
+│   │   └── page.tsx             # Main page (view switcher + password gate + unlock badge)
 │   ├── components/
 │   │   ├── landing/             # Landing page sections
-│   │   │   ├── Navbar.tsx
-│   │   │   ├── Hero.tsx
+│   │   │   ├── Navbar.tsx       # Scroll spy + unlock indicator
+│   │   │   ├── Hero.tsx         # Animated mockup + social proof + scroll indicator
 │   │   │   ├── FaithSection.tsx
 │   │   │   ├── PillarsSection.tsx
 │   │   │   ├── ScriptsPreview.tsx
 │   │   │   ├── WeeklyResetSection.tsx
 │   │   │   ├── AffiliateSection.tsx
 │   │   │   ├── BonusesSection.tsx
-│   │   │   ├── PricingSection.tsx    # Password gate (/q123)
+│   │   │   ├── PricingSection.tsx    # Password gate (/q123) + quick downloads after unlock
 │   │   │   ├── TestimonialsSection.tsx
 │   │   │   ├── FinalCTA.tsx
-│   │   │   ├── Footer.tsx            # Download links
+│   │   │   ├── Footer.tsx            # Conditional download links (locked/unlocked)
 │   │   │   └── LandingPage.tsx
 │   │   ├── command-center/      # Dashboard sections
 │   │   │   ├── CommandCenter.tsx      # Sidebar + nav + onNavigate
@@ -159,7 +165,7 @@ marktantongco.github.com/
 │   │   │       ├── FollowUpDashboard.tsx
 │   │   │       ├── HuddleDashboard.tsx
 │   │   │       ├── ChecklistDashboard.tsx
-│   │   │       └── ResourcesDashboard.tsx  # Download center
+│   │   │       └── ResourcesDashboard.tsx  # Download center + tracking
 │   │   └── ui/                  # shadcn/ui components
 │   ├── hooks/
 │   │   ├── use-local-storage.ts # Hydration-safe localStorage persistence
@@ -226,8 +232,9 @@ The project includes a GitHub Actions workflow that automatically builds and dep
 
 1. Push changes to `main`
 2. GitHub Actions builds the static export
-3. Deploys to GitHub Pages
-4. Site goes live at [marktantongco.github.com](https://marktantongco.github.com)
+3. Adds `.nojekyll` for compatibility
+4. Deploys to GitHub Pages
+5. Site goes live at [marktantongco.github.com](https://marktantongco.github.com)
 
 **Manual deployment:**
 
@@ -274,6 +281,7 @@ vercel --prod --token YOUR_VERCEL_TOKEN
 | Faith Amber | `#92400e` | Faith section accents |
 | Slate | `#8892a4` | Muted text, secondary info |
 | Light Gray | `#b0b8c8` | Body text on dark backgrounds |
+| Green | `#4ade80` | Success states, unlock indicators |
 
 ### Typography
 
@@ -320,19 +328,29 @@ To join: Email [mark.tantongco@gmail.com](mailto:mark.tantongco@gmail.com) with 
 
 ---
 
-## Bug Fixes Applied (v2)
+## Bug Fixes & Upgrades (v3 — Comprehensive Upgrade)
 
 | Issue | Severity | Fix |
 |-------|----------|-----|
-| PillarsDashboard icon crash on reload | Critical | Icon lookup map instead of serializing React components |
-| useLocalStorage hydration mismatch | Critical | Two-phase init: start with default, sync from localStorage in effect |
-| Pricing CTA button non-functional | Critical | Password gate with `/q123` access code + navigation to Command Center |
-| Overview Quick Actions dead buttons | High | Added `onNavigate` prop, wired to `setActiveTab` |
-| Clipboard calls unhandled errors | High | Async/await with try/catch on all 5 clipboard calls |
-| Missing OG image | High | Added cover-image.png to openGraph metadata |
-| Unused ChevronDown import | Medium | Removed from ScriptsPreview |
-| Low-opacity values | Medium | Fixed /3 → /5 and /8 → /10 opacity values |
-| New Resources dashboard | Feature | Download center for all 8 product files with password protection |
+| Broken `#features` nav link | Critical | Changed to `#pillars` with proper section IDs on all sections |
+| Missing section IDs | Critical | Added IDs: `#hero`, `#faith`, `#pillars`, `#scripts`, `#weekly-reset`, `#affiliate`, `#bonuses`, `#pricing`, `#testimonials` |
+| `ignoreBuildErrors: true` hiding TS issues | Critical | Removed flag, fixed by excluding `examples/` and `skills/` from tsconfig |
+| `metadataBase` not set | High | Added `metadataBase: new URL('https://marktantongco.github.com')` |
+| Missing Twitter card metadata | High | Added `twitter` card metadata with `summary_large_image` |
+| Missing `.nojekyll` file | High | Added to `public/` for GitHub Pages compatibility |
+| Footer download links bypass password gate | High | Footer links now conditional — only visible when unlocked |
+| No feedback on successful unlock | High | Added toast notifications on password success in all 3 gate locations |
+| No quick download after unlocking | Medium | Pricing section now shows PDF/PPTX quick-download buttons after unlock |
+| No download tracking | Medium | Resources dashboard tracks downloaded files with visual indicator |
+| No scroll spy in navbar | Medium | Added active section highlighting with `layoutId` animation |
+| No unlock status indicator | Medium | Added "UNLOCKED" badge in navbar + footer unlock status |
+| No visual feedback on password errors | Medium | Added animated error messages with background highlight |
+| Generic package name | Low | Changed from `nextjs_tailwind_shadcn_ts` to `100-accountability-playbook` |
+| Hero missing social proof | Low | Added avatar stack + star rating + scroll indicator |
+| Hero missing floating price badge | Low | Added animated $27 badge on product mockup |
+| Navbar missing scroll spy indicator | Low | Added active underline animation on nav links |
+| Unlock badge on landing page | Feature | Floating "Playbook Unlocked" badge with PDF/PPT quick links |
+| Download tracking persistence | Feature | Resources dashboard saves downloaded file state to localStorage |
 
 ---
 

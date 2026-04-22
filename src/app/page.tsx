@@ -1,12 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ArrowRight, Lock, X } from 'lucide-react'
+import { ArrowRight, Lock, X, Unlock, Download, FileText, Presentation } from 'lucide-react'
 import { LandingPage } from '@/components/landing/LandingPage'
 import { CommandCenter } from '@/components/command-center/CommandCenter'
 import { Button } from '@/components/ui/button'
 import { useLocalStorage } from '@/hooks/use-local-storage'
+import { useToast } from '@/hooks/use-toast'
 
 export default function Home() {
   const [view, setView] = useState<'landing' | 'command-center'>('landing')
@@ -14,6 +15,17 @@ export default function Home() {
   const [showPasswordModal, setShowPasswordModal] = useState(false)
   const [passwordInput, setPasswordInput] = useState('')
   const [error, setError] = useState('')
+  const [showUnlockBadge, setShowUnlockBadge] = useState(false)
+  const { toast } = useToast()
+
+  // Show unlock badge briefly when unlocked
+  useEffect(() => {
+    if (unlocked) {
+      setShowUnlockBadge(true)
+      const timer = setTimeout(() => setShowUnlockBadge(false), 3000)
+      return () => clearTimeout(timer)
+    }
+  }, [unlocked])
 
   const handleEnterCommandCenter = () => {
     if (unlocked) {
@@ -31,6 +43,11 @@ export default function Home() {
       setUnlocked(true)
       setShowPasswordModal(false)
       setView('command-center')
+      toast({
+        title: '🔓 Playbook Unlocked!',
+        description: 'Welcome to the Command Center. All resources are now available.',
+        duration: 5000,
+      })
     } else {
       setError('Incorrect access code. Please try again.')
     }
@@ -58,6 +75,40 @@ export default function Home() {
             transition={{ duration: 0.3 }}
           >
             <CommandCenter onBack={() => setView('landing')} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Floating Unlock Badge */}
+      <AnimatePresence>
+        {showUnlockBadge && view === 'landing' && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, x: '-50%' }}
+            animate={{ opacity: 1, y: 0, x: '-50%' }}
+            exit={{ opacity: 0, y: 50, x: '-50%' }}
+            className="fixed bottom-6 left-1/2 z-[90] bg-green-500/10 border border-green-500/30 backdrop-blur-md rounded-full px-6 py-3 flex items-center gap-3 shadow-2xl"
+          >
+            <Unlock className="w-5 h-5 text-green-400" />
+            <span className="text-green-400 font-semibold text-sm">Playbook Unlocked</span>
+            <div className="w-px h-4 bg-green-500/30" />
+            <a
+              href="/download/100-Accountability-Playbook.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#b0b8c8] hover:text-gold text-xs flex items-center gap-1 transition-colors"
+            >
+              <FileText className="w-3.5 h-3.5" />
+              PDF
+            </a>
+            <a
+              href="/download/100-Accountability-Playbook.pptx"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#b0b8c8] hover:text-gold text-xs flex items-center gap-1 transition-colors"
+            >
+              <Presentation className="w-3.5 h-3.5" />
+              PPT
+            </a>
           </motion.div>
         )}
       </AnimatePresence>
@@ -95,6 +146,25 @@ export default function Home() {
                 </button>
               </div>
 
+              {/* What you get preview */}
+              <div className="bg-[#0d1b2a] rounded-lg p-4 border border-gold/10 mb-6">
+                <p className="text-xs text-gold font-semibold uppercase tracking-wider mb-3">After unlocking, you get access to:</p>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <FileText className="w-3.5 h-3.5 text-gold" />
+                    <span className="text-[#b0b8c8] text-xs">Full Playbook (PDF) + Presentation (PPTX)</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Download className="w-3.5 h-3.5 text-gold" />
+                    <span className="text-[#b0b8c8] text-xs">8 downloadable resources</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Unlock className="w-3.5 h-3.5 text-gold" />
+                    <span className="text-[#b0b8c8] text-xs">Interactive Command Center dashboard</span>
+                  </div>
+                </div>
+              </div>
+
               <form onSubmit={handlePasswordSubmit} className="space-y-4">
                 <div>
                   <label htmlFor="global-password-input" className="text-sm text-[#8892a4] mb-2 block">
@@ -115,7 +185,13 @@ export default function Home() {
                 </div>
 
                 {error && (
-                  <p className="text-red-400 text-sm">{error}</p>
+                  <motion.p
+                    initial={{ opacity: 0, y: -5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-red-400 text-sm bg-red-400/10 rounded-lg px-3 py-2"
+                  >
+                    {error}
+                  </motion.p>
                 )}
 
                 <Button

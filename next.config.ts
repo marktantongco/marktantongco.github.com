@@ -17,9 +17,6 @@ const nextConfig: NextConfig = {
   // Trailing slashes for GitHub Pages compatibility
   trailingSlash: true,
 
-  typescript: {
-    ignoreBuildErrors: true,
-  },
   reactStrictMode: false,
   allowedDevOrigins: [
     ".space.z.ai",
