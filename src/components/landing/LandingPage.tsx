@@ -12,6 +12,8 @@ import { BonusesSection } from './BonusesSection'
 import { PricingSection } from './PricingSection'
 import { TestimonialsSection } from './TestimonialsSection'
 import { FinalCTA } from './FinalCTA'
+import { GuaranteeSection } from './GuaranteeSection'
+import { FAQSection } from './FAQSection'
 import { Footer } from './Footer'
 
 interface LandingPageProps {
@@ -22,7 +24,7 @@ export function LandingPage({ onEnterCommandCenter }: LandingPageProps) {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar onEnterCommandCenter={onEnterCommandCenter} />
-      <main className="flex-1">
+      <main id="main-content" className="flex-1">
         <Hero onEnterCommandCenter={onEnterCommandCenter} />
         <StatsSection />
         <FaithSection />
@@ -32,7 +34,9 @@ export function LandingPage({ onEnterCommandCenter }: LandingPageProps) {
         <AffiliateSection />
         <BonusesSection />
         <PricingSection onEnterCommandCenter={onEnterCommandCenter} />
+        <GuaranteeSection />
         <TestimonialsSection />
+        <FAQSection />
         <FinalCTA onEnterCommandCenter={onEnterCommandCenter} />
       </main>
       <Footer />

@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 
 interface FloatingParticlesProps {
   count?: number
@@ -47,6 +47,9 @@ export function FloatingParticles({
     )
   }, [count, minSize, maxSize])
 
+  // Memoize the background color to prevent re-renders
+  const particleStyle = useMemo(() => ({ backgroundColor: color }), [color])
+
   // Render nothing during SSR — particles appear after hydration
   if (particles.length === 0) {
     return <div className={`absolute inset-0 overflow-hidden pointer-events-none ${className}`} />
@@ -57,13 +60,13 @@ export function FloatingParticles({
       {particles.map((particle) => (
         <motion.div
           key={particle.id}
-          className="absolute rounded-full"
+          className="absolute rounded-full will-change-transform"
           style={{
             left: `${particle.x}%`,
             top: `${particle.y}%`,
             width: particle.size,
             height: particle.size,
-            backgroundColor: color,
+            ...particleStyle,
             opacity: particle.opacity,
           }}
           animate={{

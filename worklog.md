@@ -149,3 +149,33 @@ Stage Summary:
 - Infographic-motion: 5 new animated components, integrated across 10 sections
 - Build: Clean, zero errors
 - Deployment: Pushed to main branch (af24573)
+
+---
+Task ID: 8
+Agent: Main Agent
+Task: Audit fix and continue comprehensive upgrade
+
+Work Log:
+- Comprehensive audit of all 20+ components, hooks, config, CSS
+- Confirmed FloatingParticles hydration fix already in place (useState + useEffect pattern)
+- Build verified: zero errors, zero warnings
+- Added prefers-reduced-motion media query to globals.css for WCAG accessibility
+- Added skip-to-content link to layout.tsx + main-content id on LandingPage main element
+- Improved useLocalStorage hook: removed queueMicrotask, added `hydrated` return flag, cleaner SSR handling
+- Created FAQSection component with 7 questions matching JsonLd FAQ schema
+- Created GuaranteeSection component with 30-day money-back guarantee, trust badges
+- Added FAQ + Guarantee sections to LandingPage between Pricing and FinalCTA
+- Updated Navbar navLinks to include FAQ link
+- Cleaned up PricingSection: removed duplicate password modal (delegates to global modal in page.tsx)
+- Improved FloatingParticles: added `will-change-transform` class for GPU acceleration
+- Updated JsonLd FAQ schema to match new FAQSection content (7 questions)
+- Updated sitemap.xml dates to 2026-04-23
+- Build verified: zero errors, zero warnings
+
+Stage Summary:
+- 8 files modified, 2 new files created (FAQSection.tsx, GuaranteeSection.tsx)
+- Accessibility: prefers-reduced-motion, skip-to-content, WCAG compliance
+- New sections: FAQ (7 questions), Guarantee (30-day, 3 trust badges)
+- UX: Removed duplicate password modal, cleaner access code flow
+- Performance: will-change-transform on particles, memoized styles
+- Build: Clean, zero errors

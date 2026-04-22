@@ -16,6 +16,7 @@ const navLinks = [
   { label: 'Scripts', href: '#scripts' },
   { label: 'Bonuses', href: '#bonuses' },
   { label: 'Pricing', href: '#pricing' },
+  { label: 'FAQ', href: '#faq' },
 ]
 
 export function Navbar({ onEnterCommandCenter }: NavbarProps) {

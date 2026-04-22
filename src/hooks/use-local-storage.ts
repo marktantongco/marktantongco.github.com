@@ -12,7 +12,16 @@ function loadFromStorage<T>(key: string, initialValue: T): T {
   }
 }
 
-export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T | ((prev: T) => T)) => void] {
+/**
+ * useLocalStorage — SSR-safe localStorage hook with hydration flash prevention.
+ *
+ * Returns [value, setValue, hydrated].
+ * - `value` starts as `initialValue` (matching server render) and syncs from
+ *   localStorage after mount — no hydration mismatch.
+ * - `hydrated` is `true` once the client-side value has been loaded.
+ *   Components that depend on the stored value can use this to avoid flash.
+ */
+export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T | ((prev: T) => T)) => void, boolean] {
   const [storedValue, setStoredValue] = useState<T>(initialValue)
   const [hydrated, setHydrated] = useState(false)
   const hydratedRef = useRef(false)
@@ -21,11 +30,8 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T 
   useEffect(() => {
     const item = loadFromStorage(key, initialValue)
     hydratedRef.current = true
-    // Use a micro-task to avoid the synchronous setState-in-effect lint
-    queueMicrotask(() => {
-      setStoredValue(item)
-      setHydrated(true)
-    })
+    setStoredValue(item)
+    setHydrated(true)
   }, [key, initialValue])
 
   // Save to localStorage on change (only after hydration)
@@ -34,7 +40,7 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T 
       try {
         localStorage.setItem(key, JSON.stringify(storedValue))
       } catch {
-        // Ignore write errors
+        // Ignore write errors (e.g. quota exceeded)
       }
     }
   }, [key, storedValue])
@@ -43,5 +49,5 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T 
     setStoredValue(value)
   }, [])
 
-  return [storedValue, setValue]
+  return [storedValue, setValue, hydrated]
 }
